@@ -1,0 +1,23 @@
+.imageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+
+  .brandLogo {
+    width: 80px;
+    animation: fade-in 0.3s linear infinite alternate;
+    @media (min-width: 500px) {
+      width: 100px;
+    }
+  }
+}
+
+@keyframes fade-in{
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
