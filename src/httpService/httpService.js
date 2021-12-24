@@ -7,6 +7,7 @@ let accessToken = () => JSON.parse(localStorage.getItem("loyalty-lk-auth"))?.acc
 const httpService = async (apiConfig, url) => {
     try {
         // Accept/send cookie
+        console.log(localStorage.getItem("loyalty-lk-auth"))
         apiConfig.credentials = "include";
         apiConfig.headers.auth = "Bearer " + accessToken() || "";
 
@@ -32,7 +33,7 @@ const httpService = async (apiConfig, url) => {
                 return responseJson;
             }
         // } else if(response.status === 401 && logoutCase.includes(responseJson.message.toLocaleLowerCase())) {
-        } else if(response.status === 401) {
+        } else if(response.status === 403) {
             // Make logout
             store.dispatch(logout());
             const error = {

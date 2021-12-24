@@ -105,7 +105,7 @@ export const paymentPreCheck = (fieldsArr) => {
 };
 
 
-export const makePayment = (customerIdentifier, amount, bonusAmount) => {
+export const makePayment = (customerIdentifier, amount, bonusAmount, reset) => {
   amount = (parseFloat(amount).toFixed(2))
   bonusAmount = bonusAmount ? (parseFloat(bonusAmount).toFixed(2)) : (0).toFixed(2);
   console.log(amount, bonusAmount)
@@ -128,16 +128,14 @@ export const makePayment = (customerIdentifier, amount, bonusAmount) => {
         },
       };
 
-
-
       const responseJson = await httpService(apiConfig, `${ApiUrl}create_payment`);
       dispatch(loadingPaymentsFields(false));
-      console.log(responseJson)
+      reset()
       dispatch(
         handleSnackbar({
           open: true,
-          message: responseJson,
-          type: "error",
+          message: responseJson.reason,
+          type: "success",
           position: {
             vertical: "top",
             horizontal: "center",

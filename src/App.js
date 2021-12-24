@@ -60,7 +60,8 @@ const App = props => {
 
 
   useEffect(() => {
-  }, [dispatch,userState.isAuth,userState.role])
+    dispatch(getUserInfo())
+  }, [])
 
   return (
         <Box sx={{

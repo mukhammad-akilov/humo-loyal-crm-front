@@ -1,23 +1,16 @@
 import * as actions from "./actions/actionTypes";
 
 let userAuth = null;
-let userRole = null;
 const isUserAuth = localStorage.getItem("loyalty-lk-auth");
-const isUserRole = localStorage.getItem("user-role");
 
 if(isUserAuth) {
-    userAuth = JSON.parse(isUserAuth).value;
+    userAuth = JSON.parse(isUserAuth).accessToken;
 }
 
-if (isUserRole) {
-    userRole = JSON.parse(isUserRole).value
-}
 
 const  initialState = {
-    isAuth: true,
-    // isAuth: userAuth ? userAuth : false,
-    fullName: "",
-    role: userRole ? userRole : "",
+    isAuth: userAuth ? userAuth : false,
+    userInfo: null,
     loadingInfo: false,
 };
 
@@ -27,8 +20,7 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuth: true,
-                fullName: action.payload.fullName,
-                role: action.payload.role,
+                userInfo: action.payload
             };
         case actions.START_LOADING_USER_INFO:
             return {
@@ -51,8 +43,7 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuth: false,
-                fullName: "",
-                role: "",
+                userInfo: null,
                 loadingInfo: false,
             };
         default:

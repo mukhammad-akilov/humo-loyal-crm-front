@@ -1,18 +1,16 @@
 import * as actions from "./actionTypes";
 import httpService from "../../httpService/httpService";
 import {ApiUrl} from "../../config";
+import { handleSnackbar } from "./snackbarActions";
 
-export const signInSuccess = (user) => {
+export const signInSuccess = (data) => {
     return {
         type: actions.SIGN_IN_SUCCESS,
-        payload: {
-            fullName: user.fullName,
-            role: user.role
-        }
+        payload: data
     }
 };
 
-export const getUserInfo = userType => {
+export const getUserInfo = () => {
     return  async dispatch => {
         try {
             dispatch(startLoadingUserInfo());
@@ -23,14 +21,23 @@ export const getUserInfo = userType => {
                 },
             };
 
-            const responseJson = await httpService(apiConfig, `${ApiUrl}about-me?user=${userType}`);
-            dispatch(setUserInfo({
-                fullName: responseJson["full_name"],
-                role: responseJson["user-type"],
-            }));
+            const responseJson = await httpService(apiConfig, `${ApiUrl}get_me`);
+            dispatch(signInSuccess(responseJson))
+            dispatch(endLoadingUserInfo())
         } catch (error) {
             console.log(error);
-            dispatch(endLoadingUserInfo());
+            dispatch(
+                handleSnackbar({
+                  open: true,
+                  message: error.apiResponse.reason,
+                  type: "error",
+                  position: {
+                    vertical: "top",
+                    horizontal: "center",
+                  },
+                })
+              );
+            dispatch(endLoadingUserInfo())
         }
     }
 };

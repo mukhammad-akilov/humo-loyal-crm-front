@@ -18,42 +18,42 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
   const classes = useStyles();
   const dispatch = useDispatch();
   //original
-  // const { fields, loading, preCheckInfo, preCheckLoading } = useSelector((state) => state.payment);
-  // const [fieldsState, setFieldsState] = useState({});
-  // const [validation, setValidation] = useState({});
+  const { fields, loading, preCheckInfo, preCheckLoading } = useSelector((state) => state.payment);
+  const [fieldsState, setFieldsState] = useState({});
+  const [validation, setValidation] = useState({});
 
   //   test
-  const { fields, loading, preCheckInfo, preCheckLoading } = {
-    fields: [
-      {
-        title: "Номер карты",
-        reg_exp: "^(2200)\\d{6}$",
-        req_key: "customer_identifier",
-        required: true,
-      },
-      {
-        title: "Номер карты",
-        reg_exp: "\\d{9}$",
-        req_key: "customer_identifier1",
-        required: true,
-      },
-    ],
-    loading: false,
-    preCheckInfo: {
-      customer_identifier: "2200000001",
-      amount: 18,
-      customer_info: "Мирзокулов Абдукахор",
-    },
-    preCheckLoading: false,
-  };
-  const [fieldsState, setFieldsState] = useState({
-    customer_identifier: "",
-    customer_identifier1: "",
-  });
-  const [validation, setValidation] = useState({
-    customer_identifier: false,
-    customer_identifier1: false,
-  });
+  // const { fields, loading, preCheckInfo, preCheckLoading } = {
+  //   fields: [
+  //     {
+  //       title: "Номер карты",
+  //       reg_exp: "^(2200)\\d{6}$",
+  //       req_key: "customer_identifier",
+  //       required: true,
+  //     },
+  //     {
+  //       title: "Номер карты",
+  //       reg_exp: "\\d{9}$",
+  //       req_key: "customer_identifier1",
+  //       required: true,
+  //     },
+  //   ],
+  //   loading: false,
+  //   preCheckInfo: {
+  //     customer_identifier: "2200000001",
+  //     amount: 18,
+  //     customer_info: "Мирзокулов Абдукахор",
+  //   },
+  //   preCheckLoading: false,
+  // };
+  // const [fieldsState, setFieldsState] = useState({
+  //   customer_identifier: "",
+  //   customer_identifier1: "",
+  // });
+  // const [validation, setValidation] = useState({
+  //   customer_identifier: false,
+  //   customer_identifier1: false,
+  // });
 
   const [paymentAmount, setPaymentAmount] = useState({
     amount: "",
@@ -64,6 +64,26 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
   const [notValidateField, setNotValidateField] = useState({
     amount: false,
   });
+
+  const resetFields = () => {
+    setPaymentAmount({
+      amount: "",
+      anotherAmount: "",
+    });
+    dispatch(changePreCheckInfo(null));
+    setIsAnotherAmount(false);
+    setNotValidateField({
+      amount: false,
+    });
+    let fieldsObj = {};
+    let validationFields = {};
+    for (let i = 0; i < fields.length; i++) {
+      fieldsObj[fields[i].req_key] = "";
+      validationFields[fields[i].req_key] = false;
+    }
+    setFieldsState(fieldsObj);
+    setValidation(validationFields);
+  };
 
   const handleChange = (e) => {
     let val = e.target.value.split(".");
@@ -102,29 +122,29 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(makePayment(fieldsState[fields[0].req_key], amount, anotherAmount ))
-  }
+    dispatch(makePayment(fieldsState[fields[0].req_key], amount, anotherAmount, resetFields));
+  };
 
   useEffect(() => {
-    // dispatch(getPaymentsFields());
+    dispatch(getPaymentsFields());
     document.title = `${title} | ${ProjectTitle}`;
     return () => {
       dispatch(changePreCheckInfo(null));
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (fields.length) {
-  //     let fieldsObj = {};
-  //     for (let i = 0; i < fields.length; i++) {
-  //       fieldsObj[fields[i].req_key] = "";
-  //     }
-  //     setFieldsState(fieldsObj);
-  //   }
-  // }, [fields]);
+  useEffect(() => {
+    if (fields.length) {
+      let fieldsObj = {};
+      for (let i = 0; i < fields.length; i++) {
+        fieldsObj[fields[i].req_key] = "";
+      }
+      setFieldsState(fieldsObj);
+    }
+  }, [fields]);
 
-  console.log('fieldsState', fieldsState)
-  console.log('validation', validation)
+  console.log(fieldsState);
+  console.log(validation);
 
   return (
     <Container maxWidth={false}>
@@ -144,35 +164,41 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
             {fields.length ? (
               <Card className={classes.cardContainer}>
                 <form onSubmit={handleFormSubmit}>
-                  <Button
-                    color="secondary"
-                    onClick={() => dispatch(paymentPreCheck(fieldsState))}
-                    startIcon={!preCheckLoading && <Cached />}
-                    variant="contained"
-                    disabled={fieldsPaymentHasValueValidation() || fieldsPaymentCheckValueValidation() || preCheckLoading}
-                  >
-                    {preCheckLoading ? <CircularProgress color="secondary" size={20} /> : `Проверить`}
-                  </Button>
-                  {fields.map((field) => {
-                    return (
-                      <Box mt={3} key={field.req_key}>
-                        <TextField
-                          fullWidth
-                          value={fieldsState[field.req_key]}
-                          name={`${field.req_key}`}
-                          label={field.title}
-                          onChange={(e) => handleChangeField(e, field)}
-                          error={validation[field.req_key]}
-                          onBlur={() =>
-                            setValidation({
-                              ...validation,
-                              [field.req_key]: fieldsState[field.req_key].trim() == "" || !(new RegExp(field.reg_exp).test( fieldsState[field.req_key])),
-                            })
-                          }
-                        />
-                      </Box>
-                    );
-                  })}
+                  <Grid container spacing={2} alignItems={"center"} alignContent={"center"}>
+                    {fields.map((field) => {
+                      return (
+                        <Grid item xs={9} key={field.req_key}>
+                          <TextField
+                            fullWidth
+                            value={fieldsState[field.req_key]}
+                            name={`${field.req_key}`}
+                            label={field.title}
+                            onChange={(e) => handleChangeField(e, field)}
+                            error={validation[field.req_key]}
+                            onBlur={() =>
+                              setValidation({
+                                ...validation,
+                                [field.req_key]:
+                                  fieldsState[field.req_key].trim() == "" ||
+                                  !new RegExp(field.reg_exp).test(fieldsState[field.req_key]),
+                              })
+                            }
+                          />
+                        </Grid>
+                      );
+                    })}
+                    <Grid item xs={3}>
+                      <Button
+                        color="secondary"
+                        onClick={() => dispatch(paymentPreCheck(fieldsState))}
+                        startIcon={!preCheckLoading && <Cached />}
+                        variant="contained"
+                        disabled={fieldsPaymentHasValueValidation() || fieldsPaymentCheckValueValidation() || preCheckLoading}
+                      >
+                        {preCheckLoading ? <CircularProgress color="secondary" size={20} /> : `Проверить`}
+                      </Button>
+                    </Grid>
+                  </Grid>
                   {preCheckInfo && (
                     <Box
                       sx={{
@@ -230,7 +256,12 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
                   )}
                   <Box mt={3} textAlign={"center"}>
                     <Button
-                      disabled={fieldsPaymentCheckValueValidation() || !amount && amount === 0 || fieldsPaymentHasValueValidation()}
+                      disabled={
+                        fieldsPaymentCheckValueValidation() ||
+                        amount.trim() === "" ||
+                        amount <= 0 ||
+                        fieldsPaymentHasValueValidation()
+                      }
                       startIcon={<CreditScore />}
                       variant="contained"
                       color="secondary"
