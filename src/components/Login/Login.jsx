@@ -143,9 +143,9 @@ const Login = () =>  {
                             alignItems: 'center',
                          }}
                     >
-                        {userState.loadingInfo &&
+                        {/* {userState.loadingInfo &&
                             <CircularProgress size={30}/>
-                        }
+                        } */}
                         <Box mb={3} className="w-100">
                             <Box component="img" src={humoLogo} sx={{width: "50%", margin: "auto"}} />
                         </Box>
