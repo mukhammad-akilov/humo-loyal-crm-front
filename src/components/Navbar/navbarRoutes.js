@@ -1,4 +1,4 @@
-import { Home as HomeIcon, Payment } from "@mui/icons-material";
+import { Home as HomeIcon, Payment,PersonAdd } from "@mui/icons-material";
 
 const navbarRoutes = [
     {
@@ -11,6 +11,12 @@ const navbarRoutes = [
       title: "Создать платеж",
       link: "/create-payment",
       icon: <Payment color="primary" />,
+      type: "link",
+    },
+    {
+      title: "Создать клиента",
+      link: "/create-customer",
+      icon: <PersonAdd color="primary" />,
       type: "link",
     },
   ];

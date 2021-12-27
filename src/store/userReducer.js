@@ -9,7 +9,8 @@ if(isUserAuth) {
 
 
 const  initialState = {
-    isAuth: userAuth ? userAuth : false,
+    // isAuth: userAuth ? userAuth : false,
+    isAuth: true,
     userInfo: null,
     loadingInfo: false,
 };

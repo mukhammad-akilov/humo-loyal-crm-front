@@ -18,42 +18,42 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
   const classes = useStyles();
   const dispatch = useDispatch();
   //original
-  const { fields, loading, preCheckInfo, preCheckLoading } = useSelector((state) => state.payment);
-  const [fieldsState, setFieldsState] = useState({});
-  const [validation, setValidation] = useState({});
+  // const { fields, loading, preCheckInfo, preCheckLoading } = useSelector((state) => state.payment);
+  // const [fieldsState, setFieldsState] = useState({});
+  // const [validation, setValidation] = useState({});
 
   //   test
-  // const { fields, loading, preCheckInfo, preCheckLoading } = {
-  //   fields: [
-  //     {
-  //       title: "Номер карты",
-  //       reg_exp: "^(2200)\\d{6}$",
-  //       req_key: "customer_identifier",
-  //       required: true,
-  //     },
-  //     {
-  //       title: "Номер карты",
-  //       reg_exp: "\\d{9}$",
-  //       req_key: "customer_identifier1",
-  //       required: true,
-  //     },
-  //   ],
-  //   loading: false,
-  //   preCheckInfo: {
-  //     customer_identifier: "2200000001",
-  //     amount: 18,
-  //     customer_info: "Мирзокулов Абдукахор",
-  //   },
-  //   preCheckLoading: false,
-  // };
-  // const [fieldsState, setFieldsState] = useState({
-  //   customer_identifier: "",
-  //   customer_identifier1: "",
-  // });
-  // const [validation, setValidation] = useState({
-  //   customer_identifier: false,
-  //   customer_identifier1: false,
-  // });
+  const { fields, loading, preCheckInfo, preCheckLoading } = {
+    fields: [
+      {
+        title: "Номер карты",
+        reg_exp: "^(2200)\\d{6}$",
+        req_key: "customer_identifier",
+        required: true,
+      },
+      {
+        title: "Номер карты",
+        reg_exp: "\\d{9}$",
+        req_key: "customer_identifier1",
+        required: true,
+      },
+    ],
+    loading: false,
+    preCheckInfo: {
+      customer_identifier: "2200000001",
+      amount: 18,
+      customer_info: "Мирзокулов Абдукахор",
+    },
+    preCheckLoading: false,
+  };
+  const [fieldsState, setFieldsState] = useState({
+    customer_identifier: "",
+    customer_identifier1: "",
+  });
+  const [validation, setValidation] = useState({
+    customer_identifier: false,
+    customer_identifier1: false,
+  });
 
   const [paymentAmount, setPaymentAmount] = useState({
     amount: "",
@@ -126,22 +126,22 @@ const CreatePayment = ({ title = "Заголовок пустой", ...props }) 
   };
 
   useEffect(() => {
-    dispatch(getPaymentsFields());
+    // dispatch(getPaymentsFields());
     document.title = `${title} | ${ProjectTitle}`;
     return () => {
       dispatch(changePreCheckInfo(null));
     };
   }, []);
 
-  useEffect(() => {
-    if (fields.length) {
-      let fieldsObj = {};
-      for (let i = 0; i < fields.length; i++) {
-        fieldsObj[fields[i].req_key] = "";
-      }
-      setFieldsState(fieldsObj);
-    }
-  }, [fields]);
+  // useEffect(() => {
+  //   if (fields.length) {
+  //     let fieldsObj = {};
+  //     for (let i = 0; i < fields.length; i++) {
+  //       fieldsObj[fields[i].req_key] = "";
+  //     }
+  //     setFieldsState(fieldsObj);
+  //   }
+  // }, [fields]);
 
   console.log(fieldsState);
   console.log(validation);

@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 // Redux actions
 import {getUserInfo} from "./store/actions/userActions";
 // Lazy components
-import {Login, Home,  NotFound, Profile, CreatePayment } from "./components/Lazy/Lazy";
+import {Login, Home,  NotFound, Profile, CreatePayment, CreateCutomer } from "./components/Lazy/Lazy";
 // React router
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Routes type
@@ -91,6 +91,9 @@ const App = props => {
                 </PrivateRoute>
                 <PrivateRoute path="/create-payment" exact>
                   <CreatePayment title="Создание платежа" />
+                </PrivateRoute>
+                <PrivateRoute path="/create-customer" exact>
+                  <CreateCutomer title="Создание клиента" />
                 </PrivateRoute>
                 <Route path="/404">
                   <NotFound title="Страница 404" />
