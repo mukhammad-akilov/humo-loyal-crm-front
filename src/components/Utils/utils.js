@@ -27,7 +27,7 @@ export const logoutCase = [
   "token is expired",
   "your token is not valid",
   "ресурс доступен внутри корпоративной сети",
-  "необходимо авторизоваться"
+  "необходимо авторизоваться",
 ];
 
 export const isWebLink = link => {

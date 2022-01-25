@@ -1,9 +1,9 @@
-import React from 'react';
+import {SuspenseFallbackProps} from "./SuspenseFallback.props";
 import styles from './SuspenseFallback.module.scss';
 // Images
 import humoLogo from '../../assets/images/humo-logo-textless.svg';
 
-const SuspenseFallback = ({title = "Заголовок пустой", ...props}) =>  {
+const SuspenseFallback = ({title = "Заголовок пустой", ...props}: SuspenseFallbackProps): JSX.Element =>  {
 
     return (
         <div className={styles.imageContainer}>

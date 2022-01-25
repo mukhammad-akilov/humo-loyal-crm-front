@@ -114,7 +114,7 @@ const DashboardUsersList = ({title = "Заголовок пустой", ...props
         getUsersInit();
     }, []);
 
-    return(
+    return (
         <>
             <Container maxWidth={false}>
                 <Box my={4} style={{textAlign: "center"}}>

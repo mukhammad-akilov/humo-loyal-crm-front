@@ -26,7 +26,7 @@ import {KeyboardArrowUpOutlined} from '@mui/icons-material';
 // Snackbar alert
 import SnackbarAlert from "./components/Utils/SnackbarAlert";
 // Suspense fallback
-import SuspenseFallback from "./components/SuspenseFallback/SuspenseFallback";
+import SuspenseFallback from "./components/SuspenseFallback/SuspenseFallback.props";
 // Utils
 import {handleSystemTheme} from "./components/Utils/utils";
 // httpService

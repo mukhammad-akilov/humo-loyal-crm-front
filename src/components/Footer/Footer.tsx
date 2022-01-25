@@ -10,8 +10,7 @@ import {ProjectTitle} from "../../config";
 // Images
 import humoLogo from '../../assets/images/humo-white-logo.svg';
 
-
-const Footer = () => {
+const Footer = (): JSX.Element | null => {
     const userSate = useSelector(state => state.user);
     const location = useLocation();
 
