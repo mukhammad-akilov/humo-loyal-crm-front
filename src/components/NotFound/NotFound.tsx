@@ -7,8 +7,9 @@ import {Box, Container, Typography, Alert} from '@mui/material'
 import image404 from '../../assets/images/404.png';
 // Breadcrumbs
 import Breadcrumbs from "../Utils/Breadcrumbs";
+import {NotFoundProps} from "./NotFound.props";
 
-const NotFound = ({title = "Заголовок пустой", ...props}) => {
+const NotFound = ({title = "Заголовок пустой", ...props}: NotFoundProps): JSX.Element => {
 
     useEffect(() => {
         document.title = `${title} | ${ProjectTitle}`;

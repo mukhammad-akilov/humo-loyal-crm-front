@@ -17,7 +17,12 @@ import {
 import {ArrowForward} from "@mui/icons-material";
 import navbarRoutes from "../Navbar/navbarRoutes";
 
-const CardLink = ({ title, link, ...props }) => {
+interface CardLinkProps {
+    title: string,
+    link: string
+}
+
+const CardLink = ({ title, link, ...props }: CardLinkProps): JSX.Element => {
   return (
     <Box boxShadow={3} style={{ height: "100%" }}>
       <ButtonBase
@@ -27,7 +32,8 @@ const CardLink = ({ title, link, ...props }) => {
             padding: "15px",
             minHeight: "140px",
             height: "100%",
-            backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
+            backgroundColor:(theme
+            ) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
