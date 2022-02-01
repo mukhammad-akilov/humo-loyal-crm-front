@@ -29,7 +29,7 @@ export const getUserInfo = () => {
             dispatch(
                 handleSnackbar({
                   open: true,
-                  message: error.apiResponse.reason,
+                  message: error?.apiResponse?.reason,
                   type: "error",
                   position: {
                     vertical: "top",

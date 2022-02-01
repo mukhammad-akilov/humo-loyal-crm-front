@@ -5,7 +5,7 @@ import {logout} from "../../store/actions/userActions";
 // Project settings
 import {ProjectTitle} from "../../config";
 // React router
-import {Link, useHistory, useLocation} from 'react-router-dom';
+import {Link, useNavigate , useLocation} from 'react-router-dom';
 // Material UI
 import { Drawer, Collapse, List, Divider, AppBar, ListItem, ListItemIcon, ListItemText, Toolbar, IconButton, Typography,
     Menu, MenuItem, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Badge} from '@mui/material';
@@ -21,7 +21,7 @@ import navbarRoutes from './navbarRoutes';
 const Navbar = () => {
     const userState = useSelector(state => state.user);
     const dispatch = useDispatch();
-    const routerHistory = useHistory();
+    const navigate = useNavigate ();
     const location = useLocation();
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -187,7 +187,7 @@ const Navbar = () => {
                                 open={appBarMenuOpen}
                                 onClose={() =>  setAnchorEl(null)}
                             >
-                                <MenuItem onClick={() =>  {setAnchorEl(null);  routerHistory.push("/profile");}}>Мой профиль</MenuItem>
+                                <MenuItem onClick={() =>  {setAnchorEl(null);  navigate("/profile");}}>Мой профиль</MenuItem>
                                 <MenuItem onClick={() =>  {setAnchorEl(null); setDialogOpen(true);}}>Выйти</MenuItem>
                             </Menu>
                         </Box>
