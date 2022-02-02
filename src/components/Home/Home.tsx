@@ -1,6 +1,4 @@
 import React, {useEffect } from "react";
-// Redux
-import {useSelector} from "react-redux";
 // React Router
 import { Link } from "react-router-dom";
 // Project settings
@@ -16,6 +14,7 @@ import {
 // Icons
 import {ArrowForward} from "@mui/icons-material";
 import navbarRoutes from "../Navbar/navbarRoutes";
+import { useAppSelector } from "../hooks/redux";
 
 interface CardLinkProps {
     title: string,
@@ -68,7 +67,7 @@ const CardLink = ({ title, link, ...props }: CardLinkProps): JSX.Element => {
 
 
 const Home = () => {
-  const userState = useSelector(state => state.user);
+  const userState = useAppSelector(state => state.user);
 
   useEffect(() => {
     document.title = `Главная | ${ProjectTitle}`;

@@ -3,7 +3,20 @@ import store from "../store/store";
 import {IApiConfig} from "./httpServiceInterface";
 import {logout} from "../store/actions/userActions";
 
-let accessToken = () => JSON.parse(localStorage.getItem("loyalty-lk-auth") || "")?.accessToken;
+interface accessTokenConfig {
+    accessToken: string;
+}
+
+const getToken = () => {
+
+    if (localStorage.getItem("loyalty-lk-auth")) {
+        let token: accessTokenConfig = JSON.parse(localStorage.getItem("loyalty-lk-auth") || ""); 
+        return token?.accessToken;
+    }
+
+    return "";
+    
+}
 
 export const abortController = new AbortController();
 const abortControllerSignal = abortController.signal;
@@ -13,7 +26,7 @@ const httpService = async (apiConfig: IApiConfig, url: string) => {
         // Accept / send cookie
         apiConfig.credentials = "include";
 
-        apiConfig.headers.auth = "Bearer " + accessToken() || "";
+        apiConfig.headers.auth = "Bearer " +  getToken();
         apiConfig.signal = abortControllerSignal;
 
         // Response settings

@@ -1,30 +1,11 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
-// Redux
-import {useSelector} from "react-redux";
+import {Outlet, Navigate} from 'react-router-dom';
+import { useAppSelector } from '../hooks/redux';
 
-const PrivateRoute = ({ children, ...rest }) => {
-    const userState = useSelector(state => state.user);
+const PrivateRoute = () => {
+    const userState = useAppSelector(state => state.user);
 
-    return (
-        <Route
-            {...rest}
-            render={({ location }) =>
-                (
-                    userState.isAuth ? (
-                        children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/login",
-                                state: { from: location }
-                            }}
-                        />
-                    )
-                )
-            }
-        />
-    );
+    return userState.isAuth ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

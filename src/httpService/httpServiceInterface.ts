@@ -5,12 +5,12 @@ interface IApiConfigHeaders {
 export interface IApiConfig {
     method: string;
     headers: IApiConfigHeaders;
-    url: string;
-    credentials: RequestCredentials;
+    url?: string;
+    credentials?: RequestCredentials;
     body?: BodyInit;
-    signal: AbortSignal;
-    hashKey: string;
-    uuid: string;
-    title: string;
+    signal?: AbortSignal;
+    hashKey?: string;
+    uuid?: string;
+    title?: string;
     func?: () => void;
 }
