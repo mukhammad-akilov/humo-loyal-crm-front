@@ -15,12 +15,14 @@ const Footer = (): JSX.Element | null => {
 
     if (userSate.isAuth || location.pathname === "/404") {
         return (
-            <Box component="footer" sx={{
-                color: "white",
-                backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.primary.main,
-                marginTop: "auto",
-                padding: "16px 0",
-            }}>
+            <Box component="footer"
+                 sx={{
+                    color: "#FFFFFF",
+                    backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.primary.main,
+                    marginTop: "auto",
+                    padding: "16px 0",
+                }}
+            >
                 <Box mb={2}>
                     <Box component="img"  src={humoLogo} sx={{ width: "220px", margin: "auto"}} />
                 </Box>

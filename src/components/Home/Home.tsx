@@ -1,8 +1,10 @@
 import React, {useEffect } from "react";
 // React Router
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 // Project settings
 import {ProjectTitle} from "../../config";
+// Navbar interface
+import {INavbarRoute} from "../Navbar/navbarRoutes";
 // Material UI
 import {
   Box,
@@ -14,18 +16,19 @@ import {
 // Icons
 import {ArrowForward} from "@mui/icons-material";
 import navbarRoutes from "../Navbar/navbarRoutes";
+// Redux
 import { useAppSelector } from "../hooks/redux";
 
-interface CardLinkProps {
+interface ICardLinkProps {
     title: string,
     link: string
 }
 
-const CardLink = ({ title, link, ...props }: CardLinkProps): JSX.Element => {
+const CardLink = ({ title, link, ...props }: ICardLinkProps): JSX.Element => {
   return (
-    <Box boxShadow={3} style={{ height: "100%" }}>
+    <Box boxShadow={3} sx={{ height: "100%" }}>
       <ButtonBase
-          component={Link}
+          component={RouterLink}
           to={link}
           sx={{
             padding: "15px",
@@ -87,11 +90,10 @@ const Home = () => {
           </Typography>
         </Box>
         <Grid container spacing={2}>
-          {navbarRoutes.map((item, idx) => {
-            if (item.title === "Главная" || item.type === "divider") {
-                return null
-            }
-            return (<Grid  key={idx} item xs={12} sm={6} md={4} lg={3}>
+          {navbarRoutes.map((item: INavbarRoute, index: number) => {
+            if (item.title === "Главная" || item.type === "divider" || item.link === undefined) return null;
+
+            return (<Grid  key={index} item xs={12} sm={6} md={4} lg={3}>
               <CardLink title={item.title} link={item.link} />
             </Grid>)
           })}

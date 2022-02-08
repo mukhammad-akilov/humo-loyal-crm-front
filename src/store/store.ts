@@ -1,24 +1,16 @@
-import {createStore, applyMiddleware} from "redux";
-import thunk from "redux-thunk";
-import {composeWithDevTools} from "redux-devtools-extension";
-import rootReducer from "./rootReducer";
-import {removeAuthDataFromLocalStorage} from "../components/Utils/utils";
+import {configureStore} from "@reduxjs/toolkit";
+import userSliceReducer from "./slices/userSlice";
+import themeSliceReducer from "./slices/themeSlice";
+import snackbarSliceReducer from "./slices/snackbarSlice";
 
-const middlewares = [thunk];
-
-const store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(...middlewares))
-);
-
-store.subscribe(() => {
-    const state = store.getState();
-    if(!state.user.isAuth) {
-        removeAuthDataFromLocalStorage();
+export const store = configureStore({
+    reducer: {
+        user: userSliceReducer,
+        theme: themeSliceReducer,
+        snackbar: snackbarSliceReducer,
     }
-});
+})
 
+export type RootState = ReturnType<typeof store.getState>;
 
-export default store;
-
-export type RootState = ReturnType<typeof rootReducer>
+export type AppDispatch = typeof store.dispatch;

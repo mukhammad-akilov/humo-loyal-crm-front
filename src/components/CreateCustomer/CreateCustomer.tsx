@@ -1,8 +1,9 @@
 import { Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import Breadcrumbs from "../Utils/Breadcrumbs";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import {CreateCustomerProps} from "./CreateCustomer.props";
 
-const CreateCutomer = ({title = "Заголовок пустой"}) => {
+const CreateCustomer = ({title = "Заголовок пустой"}: CreateCustomerProps): JSX.Element => {
   return (
     <>
       <Container maxWidth={false}>
@@ -17,4 +18,4 @@ const CreateCutomer = ({title = "Заголовок пустой"}) => {
   );
 };
 
-export default CreateCutomer;
+export default CreateCustomer;

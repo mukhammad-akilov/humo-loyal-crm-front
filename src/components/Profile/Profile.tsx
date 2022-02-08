@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 // Redux
 import {useSelector, useDispatch} from "react-redux";
-import {getUserInfo} from "../../store/actions/userActions";
+import {getUserInfo} from "../../store-deprecated/actions/userActions";
 // Project settings
 import {ProjectTitle} from "../../config";
 // Material UI
@@ -9,16 +9,18 @@ import {Box, Container, Typography,  Paper, Avatar} from '@mui/material';
 // Images
 import avatar from '../../assets/images/user.svg';
 // Breadcrumbs
-import Breadcrumbs from "../Utils/Breadcrumbs";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+// TS props
+import {ProfileProps} from "./Profile.props";
 
-const Profile = ({title = "Заголовок пустой", ...props}) => {
-    const dispatch = useDispatch();
-    const userState = useSelector(state => state.user);
+const Profile = ({title = "Заголовок пустой", ...props}: ProfileProps): JSX.Element => {
+    // const dispatch = useDispatch();
+    // const userState = useSelector(state => state.user);
 
-    useEffect(() => {
-        document.title = `${title} | ${ProjectTitle}`;
-        dispatch(getUserInfo(userState.role));
-    }, [dispatch]);
+    // useEffect(() => {
+    //     document.title = `${title} | ${ProjectTitle}`;
+    //     dispatch(getUserInfo(userState.role));
+    // }, [dispatch]);
 
     return (
         <>
@@ -50,7 +52,7 @@ const Profile = ({title = "Заголовок пустой", ...props}) => {
                         </Box>
                         <Box mb={1}>
                             <Typography component="h2" variant="h6">
-                                <strong>ФИО:</strong> {userState.fullName}
+                                {/*<strong>ФИО:</strong> {userState.fullName}*/}
                             </Typography>
                         </Box>
                     </Paper>

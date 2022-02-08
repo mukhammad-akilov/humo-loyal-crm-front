@@ -1,8 +1,8 @@
 import {Chip} from "@mui/material";
-import React from "react";
+import {OrderStatusProps} from "./OrderStatus.props";
 
-const OrderStatus = ({status, ...props}) => {
-    let statusColor;
+const OrderStatus = ({status, ...props}: OrderStatusProps) => {
+    let statusColor: any;
 
     switch (status.toLowerCase()) {
         case "успешно выдан":

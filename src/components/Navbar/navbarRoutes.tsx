@@ -1,6 +1,23 @@
 import { Home as HomeIcon, Payment,PersonAdd } from "@mui/icons-material";
 
-const navbarRoutes = [
+export interface INavbarLink {
+    title: string,
+    link: string,
+    icon: JSX.Element,
+    type: string
+}
+
+export interface INavbarRoute {
+    title: string,
+    link?: string,
+    icon: JSX.Element,
+    type: string,
+    openValue?: boolean,
+    openFunc?: (state: boolean) => void;
+    links?: INavbarLink []
+}
+
+const navbarRoutes: INavbarRoute [] = [
     {
       title: "Главная",
       link: "/",
