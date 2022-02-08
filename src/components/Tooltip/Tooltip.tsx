@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {ReactFragment} from 'react';
 // Material UI
-import {Tooltip as MaterialTooltip, styled, tooltipClasses} from '@mui/material';
+import {Tooltip as MaterialTooltip, styled, tooltipClasses, TooltipProps as  MaterialTooltipProps} from '@mui/material';
+import {TooltipProps} from "./Tooltip.props";
 
-const CustomTooltip = styled(({ className, ...props }) => (
-    <MaterialTooltip {...props} arrow classes={{ popper: className }} />
+const CustomTooltip = styled(({ className, title, placement, ...props }: MaterialTooltipProps) => (
+    <MaterialTooltip  arrow title={title} classes={{ popper: className }} {...props} />
 ))(({ theme }) => ({
     [`& .${tooltipClasses.arrow}`]: {
         color: theme.palette.common.black,
@@ -14,7 +15,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
 }));
 
 
-const Tooltip = ({title, children, ...props}) => {
+const Tooltip = ({title, children, ...props}: TooltipProps) => {
     return (
         <CustomTooltip
             arrow

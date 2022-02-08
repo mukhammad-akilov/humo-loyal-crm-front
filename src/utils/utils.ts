@@ -1,14 +1,14 @@
-import { MainUrl } from "../../config";
+import {PaletteMode} from "@mui/material";
 
-export const fullDay = day => {
+export const fullDay = (day:string): string => {
     return (`0${day}`).slice(-2);
 };
 
-export const fullMonth = month => {
+export const fullMonth = (month: string): string => {
     return (`0${month}`).slice(-2);
 };
 
-export const months = {
+export const months : { [key: string]: string; } = {
     "1": "Январь",
     "2": "Февраль",
     "3": "Март",
@@ -23,20 +23,20 @@ export const months = {
     "12": "Декабрь",
 };
 
-export const logoutCase = [
-  "token is expired",
-  "your token is not valid",
-  "ресурс доступен внутри корпоративной сети",
-  "необходимо авторизоваться",
+export const logoutCase: string[] = [
+    "token is expired",
+    "your token is not valid",
+    "ресурс доступен внутри корпоративной сети",
+    "необходимо авторизоваться",
 ];
 
-export const isWebLink = link => {
+export const isWebLink = (link: string): boolean => {
     const webLinkExpression = /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/gi;
     const regex = new RegExp(webLinkExpression);
     return link.match(regex) ? true : false;
 };
 
-export const isValidHttpUrl = link => {
+export const isValidHttpUrl = (link: string): boolean => {
     let url;
 
     try {
@@ -48,15 +48,15 @@ export const isValidHttpUrl = link => {
     return url.protocol === "http:" || url.protocol === "https:";
 };
 
-export const removeFilesPrefix = link => {
-   return link?.replace("./files/", "");
+export const removeFilesPrefix = (link: string): string => {
+    return link?.replace("./files/", "");
 };
 
-export const userPrefersDarkMode = () => {
+export const userPrefersDarkMode = (): boolean => {
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-export const handleSystemTheme =  () => {
+export const handleSystemTheme = (): PaletteMode => {
     if(userPrefersDarkMode()) {
         return "dark"
     } else {
@@ -64,12 +64,12 @@ export const handleSystemTheme =  () => {
     }
 }
 
-export const removeAuthDataFromLocalStorage = () => {
+export const removeAuthDataFromLocalStorage = (): void => {
     // Remove auth and user type state from localstorage
     localStorage.removeItem("loyalty-lk-auth");
 }
 
-export const handleThemeChangeToLocalStorage = theme => {
+export const handleThemeChangeToLocalStorage = (theme: PaletteMode): void => {
     localStorage.setItem("loyalty-lk-theme", JSON.stringify({value: theme}))
 }
 

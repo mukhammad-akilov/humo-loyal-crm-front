@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 // Redux
 import {useDispatch} from "react-redux";
-import {handleSnackbar} from "../../store/actions/snackbarActions";
+import {handleSnackbar} from "../../store-deprecated/actions/snackbarActions";
 // Project settings
 import {ProjectTitle, ApiUrl, MainUrl} from "../../config";
 import httpService from "../../httpService/httpService";

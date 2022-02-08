@@ -1,7 +1,8 @@
-import {logoutCase} from "../components/Utils/utils";
-import store from "../store/store";
+import store from "../store-deprecated/store";
 import {IApiConfig} from "./httpServiceInterface";
-import {logout} from "../store/actions/userActions";
+// import {logout} from "../store-deprecated/actions/userActions";
+import {logout} from "../store/slices/userSlice";
+import {logoutCase} from "../utils/utils";
 
 interface accessTokenConfig {
     accessToken: string;
@@ -27,6 +28,7 @@ const httpService = async (apiConfig: IApiConfig, url: string) => {
         apiConfig.credentials = "include";
 
         apiConfig.headers.auth = "Bearer " +  getToken();
+        apiConfig.headers.auth = `Bearer " + ${getToken()}`;
         apiConfig.signal = abortControllerSignal;
 
         // Response settings

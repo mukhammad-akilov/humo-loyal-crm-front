@@ -1,17 +1,29 @@
+import React from "react";
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {changeTheme} from "../../../store/actions/themeActions";
+import {changeTheme} from "../../../store/slices/themeSlice";
+import {useAppSelector} from "../../../hooks/redux";
 // Material UI
-import {Drawer, Box, ToggleButtonGroup, ToggleButton, Typography, Divider, IconButton} from "@mui/material";
+import {
+    Drawer,
+    Box,
+    ToggleButtonGroup,
+    ToggleButton,
+    Typography,
+    Divider,
+    IconButton,
+    PaletteMode
+} from "@mui/material";
 import Tooltip from "../../Tooltip/Tooltip";
 // Icons
 import {LightMode, DarkMode, SettingsBrightness, Close} from "@mui/icons-material";
+import {SettingsModalProps} from "./SettingsModal.props";
 
-const SettingsModal = ({open, onClose, ...props}) => {
+const SettingsModal = ({open, onClose, ...props}: SettingsModalProps): JSX.Element => {
     const dispatch = useDispatch();
-    const settingsState = useSelector(state => state.theme);
+    const settingsState = useAppSelector(state => state.theme);
 
-    const handleThemeChange = (event, newTheme) => {
+    const handleThemeChange = (event: React.MouseEvent<HTMLElement>, newTheme: PaletteMode | null): void => {
         if(newTheme !== null) {
             dispatch(changeTheme(newTheme));
         }

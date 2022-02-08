@@ -1,13 +1,14 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {signInSuccess} from "../../store/actions/userActions";
-import {handleSnackbar} from "../../store/actions/snackbarActions";
+import {signInSuccess} from "../../store-deprecated/actions/userActions";
+import {handleSnackbar} from "../../store-deprecated/actions/snackbarActions";
+import {useAppSelector} from "../../hooks/redux";
 // Project settings
 import {ProjectTitle, ApiUrl} from "../../config";
 import httpService from "../../httpService/httpService";
 // Material UI
-import {Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography,
+import {Button, TextField, Link, Paper, Box, Grid, Typography,
      CircularProgress, IconButton, InputAdornment} from "@mui/material";
 // Icons
 import {Visibility, VisibilityOff} from "@mui/icons-material";
@@ -15,18 +16,21 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import humoLogo from '../../assets/images/humo-logo.svg';
 import humoLogoWhite from '../../assets/images/humo-white-logo.svg';
 
-const  Copyright = ()  => {
+const Copyright = (): JSX.Element => {
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
+        <Typography
+            variant="body2"
+            color="textSecondary"
+            align="center"
+        >
             {'Все права защищены © '} <Link color="inherit" href="https://humo.tj/ru/" target="_blank">МДО Хумо</Link> {new Date().getFullYear()}.
         </Typography>
     );
 };
 
-const Login = () =>  {
+const Login = (): JSX.Element =>  {
     const dispatch = useDispatch();
-    const userState = useSelector(state => state.user);
-
+    const userState = useAppSelector(state => state.user);
     // Form validation
     const [notValidateField, setNotValidateField] = useState({
         login: false,
@@ -37,12 +41,12 @@ const Login = () =>  {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const validateForm = () => {
+    const validateForm = (): boolean => {
         const validate = (login === "" ||  password === "" || loading);
         return validate;
     };
 
-    const handleFormSubmit = async e => {
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>):  Promise<void> => {
         try {
             e.preventDefault();
             setLoading(true);
@@ -64,8 +68,7 @@ const Login = () =>  {
             const responseJson = await httpService(apiConfig, `${ApiUrl}login`);
             // Save client auth in local storage
             localStorage.setItem("loyalty-lk-auth", JSON.stringify({accessToken: responseJson.accessToken, refreshToken: responseJson.refreshToken}))
-            // Update Context API
-            // Update store
+            // Update store-deprecated
             dispatch(signInSuccess({
                 fullName: "ФИО",
                 // role: responseJson["user-type"]
@@ -76,7 +79,7 @@ const Login = () =>  {
                     horizontal: "center",
                 },
             }))
-        } catch (error) {
+        } catch (error: any) {
             console.log("error", error);
             setLoading(false);
             // Show message
@@ -103,21 +106,18 @@ const Login = () =>  {
                 component="main"
                 sx={{ minHeight: '100vh'}}
             >
-                <CssBaseline />
                 <Grid
                     item
                     xs={false}
                     sm={6}
                     md={4}
                     container
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center"
-                    sx={
-                        {
-                            background: (theme) => `#00617F`,
-                            minHeight: "150px",
-                        }
-                    }
+                    sx={{
+                        backgroundColor: (theme) => `#00617F`,
+                        minHeight: "150px",
+                    }}
                 >
                    <Box my={2} style={{width: "100%"}}>
                         <img src={humoLogoWhite} alt='humo-logo-white' style={{width: "50%", margin: "auto",}} />
@@ -147,14 +147,18 @@ const Login = () =>  {
                             <CircularProgress size={30}/>
                         } */}
                         <Box mb={3} className="w-100">
-                            <Box component="img" src={humoLogo} sx={{width: "50%", margin: "auto"}} />
+                            <Box
+                                component="img"
+                                src={humoLogo}
+                                sx={{width: "50%", margin: "auto"}}
+                            />
                         </Box>
                         <Box mb={3}>
                             <Typography component="h1" variant="h5" align="center">
                                 Бонусная программа лояльности для бизнеса
                             </Typography>
                         </Box>
-                        <form  onSubmit={handleFormSubmit}>
+                        <form onSubmit={handleFormSubmit}>
                             <Box mb={3}>
                                 <TextField
                                     variant="outlined"
@@ -203,8 +207,8 @@ const Login = () =>  {
                                     }}
                                 />
                             </Box>
-                            {loading > 0 &&
-                                <Box mb={3} style={{textAlign: "center"}}>
+                            {loading &&
+                                <Box mb={3} sx={{textAlign: "center"}}>
                                     <CircularProgress size={30}/>
                                 </Box>
                             }

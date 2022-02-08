@@ -1,17 +1,17 @@
 import React from 'react';
 // Material UI
 import {Zoom, useScrollTrigger, Box} from '@mui/material';
+import {ScrollToTopProps} from "./ScrollToTop.props";
 
-const ScrollTop = props => {
-    const { children, window } = props;
+const ScrollTop = ({children, window, ...props}: ScrollToTopProps): JSX.Element => {
     const trigger = useScrollTrigger({
         target: window ? window() : undefined,
         disableHysteresis: true,
         threshold: 400,
     });
 
-    const handleClick = event => {
-        const anchor = (event.target.ownerDocument || document).querySelector('#body');
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        const anchor = ((event.target as HTMLDivElement).ownerDocument || document).querySelector('#body');
         if (anchor) {
             anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -23,8 +23,8 @@ const ScrollTop = props => {
                 onClick={handleClick}
                 role="presentation"
                 sx={{position: 'fixed',
-                bottom: theme => theme.spacing(3),
-                right: theme => theme.spacing(3)}}
+                    bottom: theme => theme.spacing(3),
+                    right: theme => theme.spacing(3)}}
             >
                 {children}
             </Box>

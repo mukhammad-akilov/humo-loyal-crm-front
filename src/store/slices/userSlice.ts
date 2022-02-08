@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {ApiUrl} from "../config";
-import httpService from "../httpService/httpService";
+import {ApiUrl} from "../../config";
+import httpService from "../../httpService/httpService";
 
 let userAuth = null;
 const isUserAuth = localStorage.getItem("crm-auth");

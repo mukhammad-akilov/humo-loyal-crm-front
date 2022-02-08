@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 // Context API
-import {StoreContext, SnackbarAlertContext} from "../../../store/StoreContext";
+import {StoreContext, SnackbarAlertContext} from "../../../store-deprecated/StoreContext";
 // Material UI
 import {Dialog, DialogTitle, DialogContent, Button, DialogActions, CircularProgress, Box, makeStyles, TableContainer, Paper,
     Table, TableHead, TableRow, TableCell, TableBody, Switch, IconButton, Typography, Container} from "@material-ui/core";
