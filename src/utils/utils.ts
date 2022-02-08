@@ -57,11 +57,8 @@ export const userPrefersDarkMode = (): boolean => {
 }
 
 export const handleSystemTheme = (): PaletteMode => {
-    if(userPrefersDarkMode()) {
-        return "dark"
-    } else {
-        return "light";
-    }
+    if(userPrefersDarkMode()) return "dark";
+    return "light";
 }
 
 export const removeAuthDataFromLocalStorage = (): void => {
