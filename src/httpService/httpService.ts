@@ -1,4 +1,4 @@
-import store from "../store-deprecated/store";
+import {store} from "../store/store";
 import {IApiConfig} from "./httpServiceInterface";
 // import {logout} from "../store-deprecated/actions/userActions";
 import {logout} from "../store/slices/userSlice";
