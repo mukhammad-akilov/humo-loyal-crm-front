@@ -24,12 +24,12 @@ import { ruRU } from "@mui/material/locale";
 // Icons
 import { KeyboardArrowUpOutlined } from "@mui/icons-material";
 // Snackbar alert
-// import SnackbarAlert
-// import SnackbarAlert from "./components/Utils/SnackbarAlert";
+import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
 // Suspense fallback
 import SuspenseFallback from "./components/SuspenseFallback/SuspenseFallback";
 // Utils
 import { handleSystemTheme } from "./utils/utils";
+// Redux
 import {useAppSelector} from "./hooks/redux";
 
 const App = (): JSX.Element => {
@@ -101,7 +101,7 @@ const App = (): JSX.Element => {
               {/*<Route path="/create-customer" element={<PrivateRoute />}>*/}
               {/*  <Route path="/create-customer" element={<CreateCustomer title="Создание клиента" />} />*/}
               {/*</Route>*/}
-              {/*<Route path="*" element={<NotFound title="Страница 404" />} />*/}
+              <Route path="*" element={<NotFound title="Страница 404" />} />
             </Routes>
           </Box>
         </Suspense>
@@ -111,7 +111,7 @@ const App = (): JSX.Element => {
             <KeyboardArrowUpOutlined style={{ color: "#FFFFFF" }} />
           </Fab>
         </ScrollTop>
-        {/*<SnackbarAlert />*/}
+        <SnackbarAlert />
       </ThemeProvider>
     </Box>
   );

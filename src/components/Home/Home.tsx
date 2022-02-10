@@ -17,7 +17,7 @@ import {
 import {ArrowForward} from "@mui/icons-material";
 import navbarRoutes from "../Navbar/navbarRoutes";
 // Redux
-import { useAppSelector } from "../hooks/redux";
+import {useAppSelector} from "../../hooks/redux";
 
 interface ICardLinkProps {
     title: string,
