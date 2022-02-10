@@ -7,7 +7,7 @@ import {Box, Typography} from "@mui/material";
 import {ProjectTitle} from "../../config";
 // Images
 import humoLogo from '../../assets/images/humo-white-logo.svg';
-import { useAppSelector } from '../hooks/redux';
+import {useAppSelector} from "../../hooks/redux";
 
 const Footer = (): JSX.Element | null => {
     const userSate = useAppSelector(state => state.user);
@@ -15,8 +15,9 @@ const Footer = (): JSX.Element | null => {
 
     if (userSate.isAuth || location.pathname === "/404") {
         return (
-            <Box component="footer"
-                 sx={{
+            <Box
+                component="footer"
+                sx={{
                     color: "#FFFFFF",
                     backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.primary.main,
                     marginTop: "auto",
@@ -24,7 +25,11 @@ const Footer = (): JSX.Element | null => {
                 }}
             >
                 <Box mb={2}>
-                    <Box component="img"  src={humoLogo} sx={{ width: "220px", margin: "auto"}} />
+                    <Box
+                        component="img"
+                        src={humoLogo}
+                        sx={{ width: "220px", margin: "auto"}}
+                    />
                 </Box>
                 <Box>
                     <Typography component="p" align="center">
