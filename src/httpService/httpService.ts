@@ -8,6 +8,7 @@ interface accessTokenConfig {
     accessToken: string;
 }
 
+
 const getToken = () => {
 
     if (localStorage.getItem("loyalty-lk-auth")) {

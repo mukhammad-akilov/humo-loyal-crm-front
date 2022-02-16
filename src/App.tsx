@@ -29,6 +29,7 @@ import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
 import SuspenseFallback from "./components/SuspenseFallback/SuspenseFallback";
 // Utils
 import { handleSystemTheme } from "./utils/utils";
+import {ProjectTheme} from "./config";
 // Redux
 import {useAppSelector} from "./hooks/redux";
 
@@ -45,13 +46,13 @@ const App = (): JSX.Element => {
           palette: {
             mode: settingsState.theme === "system" ? handleSystemTheme() : settingsState.theme,
             primary: {
-              main: "#00617F",
-              contrastText: "#FFFFFF",
+              main: ProjectTheme.primary.color,
+              contrastText: ProjectTheme.primary.textColor,
             },
 
             secondary: {
-              main: "#FF6600",
-              contrastText: "#FFFFFF",
+              main: ProjectTheme.secondary.color,
+              contrastText: ProjectTheme.secondary.textColor,
             },
           },
         },
