@@ -115,7 +115,7 @@ const Login = (): JSX.Element =>  {
                     justifyContent="center"
                     alignItems="center"
                     sx={{
-                        backgroundColor: (theme) => `#00617F`,
+                        backgroundColor: (theme) => theme.palette.primary.main,
                         minHeight: "150px",
                     }}
                 >
