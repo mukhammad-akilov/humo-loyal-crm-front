@@ -2,10 +2,11 @@ interface IApiConfigHeaders {
     [key: string]: string
 }
 
+type HttpMethod =  "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+
 export interface IApiConfig {
-    method: string;
+    method: HttpMethod;
     headers: IApiConfigHeaders;
-    url?: string;
     credentials?: RequestCredentials;
     body?: BodyInit;
     signal?: AbortSignal;
@@ -13,4 +14,9 @@ export interface IApiConfig {
     uuid?: string;
     title?: string;
     func?: () => void;
+}
+
+export interface IApiErrorResponse {
+    statusCode: number,
+    reason: string,
 }

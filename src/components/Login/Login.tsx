@@ -6,7 +6,7 @@ import {handleSnackbar} from "../../store-deprecated/actions/snackbarActions";
 import {useAppSelector} from "../../hooks/redux";
 // Project settings
 import {ProjectTitle, ApiUrl} from "../../config";
-import httpService from "../../httpService/httpService";
+import httpService, {HttpError} from "../../httpService/httpService";
 // Material UI
 import {Button, TextField, Link, Paper, Box, Grid, Typography,
      CircularProgress, IconButton, InputAdornment} from "@mui/material";
@@ -15,6 +15,8 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 // Images
 import humoLogo from '../../assets/images/humo-logo.svg';
 import humoLogoWhite from '../../assets/images/humo-white-logo.svg';
+import {IApiConfig} from "../../httpService/httpService.interface";
+import {ILoginRequest, ILoginResponse} from "../../interfaces/login.interface";
 
 const Copyright = (): JSX.Element => {
     return (
@@ -46,17 +48,17 @@ const Login = (): JSX.Element =>  {
         return validate;
     };
 
-    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>):  Promise<void> => {
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         try {
             e.preventDefault();
             setLoading(true);
 
-            const apiData = {
+            const apiData: ILoginRequest = {
                 username: login.trim(),
-                password: password.trim()
+                password: password.trim(),
             };
 
-            const apiConfig = {
+            const apiConfig: IApiConfig = {
                 method: "POST",
                 body: JSON.stringify(apiData),
                 headers: {
@@ -65,9 +67,15 @@ const Login = (): JSX.Element =>  {
                 },
             };
 
-            const responseJson = await httpService(apiConfig, `${ApiUrl}login`);
+            const responseJson = await httpService<ILoginResponse>(apiConfig, `${ApiUrl}login`);
+            // const responseJson = await httpService<string>(apiConfig, `${ApiUrl}login`);
+            console.log(responseJson.message);
+            // TS type guard example
+            // if(typeof responseJson !== "string" && "message" in responseJson ) {
+            //     console.log(responseJson.message)
+            // }
             // Save client auth in local storage
-            localStorage.setItem("loyalty-lk-auth", JSON.stringify({accessToken: responseJson.accessToken, refreshToken: responseJson.refreshToken}))
+            // localStorage.setItem("loyalty-lk-auth", JSON.stringify({accessToken: responseJson.accessToken, refreshToken: responseJson.refreshToken}))
             // Update store-deprecated
             dispatch(signInSuccess({
                 fullName: "ФИО",
@@ -79,19 +87,22 @@ const Login = (): JSX.Element =>  {
                     horizontal: "center",
                 },
             }))
-        } catch (error: any) {
-            console.log("error", error);
+        } catch (error) {
             setLoading(false);
-            // Show message
-            dispatch(handleSnackbar({
-                open: true,
-                message: error.apiResponse.reason,
-                type: "error",
-                position: {
-                    vertical: "bottom",
-                    horizontal: "center",
-                },
-            }));
+            if(error instanceof HttpError) {
+                console.log(error.getErrorDetails());
+                // Show message
+                dispatch(handleSnackbar({
+                    open: true,
+                    message: error.getResponseErrorMessage(),
+                    type: "error",
+                    position: {
+                        vertical: "bottom",
+                        horizontal: "center",
+                    },
+                }));
+            }
+            throw  error;
         }
     };
 

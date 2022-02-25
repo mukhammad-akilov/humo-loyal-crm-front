@@ -5,6 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import {Box, Link, Breadcrumbs as BreadcrumbsComponent, Typography} from "@mui/material";
 // Icons
 import {NavigateNextOutlined} from '@mui/icons-material';
+// Props
 import {BreadcrumbsProps} from "./Breadcrumbs.props";
 
 const Breadcrumbs = ({currentLinkText = "Заголовок пустой", ...props}: BreadcrumbsProps): JSX.Element =>  {

@@ -30,6 +30,10 @@ export const logoutCase: string[] = [
     "необходимо авторизоваться",
 ];
 
+export const requestFileCase: string[] = [
+    "image/png",
+]
+
 export const isWebLink = (link: string): boolean => {
     const webLinkExpression = /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/gi;
     const regex = new RegExp(webLinkExpression);
@@ -38,7 +42,6 @@ export const isWebLink = (link: string): boolean => {
 
 export const isValidHttpUrl = (link: string): boolean => {
     let url;
-
     try {
         url = new URL(link);
     } catch (_) {
