@@ -2,7 +2,7 @@ import React, {useState, Fragment} from 'react';
 // Redux
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../hooks/redux";
-import {logout} from "../../store-deprecated/actions/userActions";
+import {logout} from "../../store/slices/userSlice";
 // TS types
 import {INavbarRoute, INavbarLink} from "./navbarRoutes";
 // Project settings
@@ -24,13 +24,13 @@ import navbarRoutes from './navbarRoutes';
 const Navbar = () => {
     const userState = useAppSelector(state => state.user);
     const dispatch = useDispatch();
-    const navigate = useNavigate ();
+    const navigate = useNavigate();
     const location = useLocation();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const appBarMenuOpen = Boolean(anchorEl);
+    // Modals
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-
     const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
 
     const childIsActive = (children: INavbarLink[] | undefined): boolean => {
@@ -117,8 +117,13 @@ const Navbar = () => {
                                 return null;
                         }
                     })}
-                    <ListItem button onClick={() => setDialogOpen(true)}>
-                        <ListItemIcon><ExitToApp color="primary" /></ListItemIcon>
+                    <ListItem
+                        button
+                        onClick={() => setDialogOpen(true)}
+                    >
+                        <ListItemIcon>
+                            <ExitToApp color="primary" />
+                        </ListItemIcon>
                         <ListItemText primary="Выйти" />
                     </ListItem>
                 </List>
@@ -220,14 +225,15 @@ const Navbar = () => {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setDialogOpen(false)}
-                                color="secondary"
-                                variant="contained"
+                        <Button
+                            onClick={() => setDialogOpen(false)}
+                            color="secondary"
+                            variant="contained"
                         >
                             Нет
                         </Button>
                         <Button
-                            onClick={() => {setDialogOpen(false); dispatch(logout())}}
+                            onClick={() => {setDialogOpen(false); dispatch(logout());}}
                             color="secondary"
                             autoFocus
                             variant="contained"

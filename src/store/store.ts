@@ -1,5 +1,5 @@
 import {configureStore} from "@reduxjs/toolkit";
-import userSliceReducer from "./slices/userSlice";
+import userSliceReducer, {logout} from "./slices/userSlice";
 import themeSliceReducer from "./slices/themeSlice";
 import snackbarSliceReducer from "./slices/snackbarSlice";
 
@@ -10,6 +10,8 @@ export const store = configureStore({
         snackbar: snackbarSliceReducer,
     }
 })
+
+export const {dispatch} = store;
 
 export type RootState = ReturnType<typeof store.getState>;
 

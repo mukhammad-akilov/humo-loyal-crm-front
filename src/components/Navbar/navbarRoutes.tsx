@@ -25,13 +25,13 @@ const navbarRoutes: INavbarRoute [] = [
       type: "link",
     },
     {
-      title: "Создать платеж",
+      title: "Создание платежа",
       link: "/create-payment",
       icon: <Payment color="primary" />,
       type: "link",
     },
     {
-      title: "Создать клиента",
+      title: "Создание клиента",
       link: "/create-customer",
       icon: <PersonAdd color="primary" />,
       type: "link",

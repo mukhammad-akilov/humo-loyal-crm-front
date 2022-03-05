@@ -3,7 +3,7 @@ import  { SnackbarOrigin } from '@mui/material/Snackbar';
 import {AlertColor} from "@mui/material";
 
 interface SnackbarState {
-    open: boolean,
+    open?: boolean,
     message?: string,
     type?: AlertColor,
     position?: SnackbarOrigin

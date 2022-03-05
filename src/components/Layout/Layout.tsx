@@ -1,8 +1,25 @@
 import {LayoutProps} from "./Layout.props";
+import {Container, Box} from "@mui/material";
+// Redux
+import {useAppSelector} from "../../hooks/redux";
 
-const Layout = ({}: LayoutProps): JSX.Element => {
+const Layout = ({children}: LayoutProps): JSX.Element => {
+    const userState = useAppSelector((state) => state.user);
+
     return (
-        <div>Layout</div>
+        <>
+            <Box
+                component="main"
+                sx={{
+                    paddingBottom: userState.isAuth ? "50px" : 0,
+                }}
+            >
+                <Container maxWidth={false}>
+                    {children}
+                </Container>
+            </Box>
+        </>
+
     );
 };
 

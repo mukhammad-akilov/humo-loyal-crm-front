@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {Outlet, Navigate} from 'react-router-dom';
 import {useAppSelector} from "../../hooks/redux";
 
-const PrivateRoute = (): JSX.Element => {
+interface PrivateRouteProps {
+    children: ReactNode
+}
+
+const PrivateRoute = ({children}: PrivateRouteProps): JSX.Element => {
     const userState = useAppSelector(state => state.user);
 
-    return userState.isAuth ? <Outlet /> : <Navigate to="/login" />;
+    return userState.isAuth ? <>{children}</> : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

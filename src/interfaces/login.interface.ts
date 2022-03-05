@@ -4,5 +4,7 @@ export interface ILoginRequest {
 }
 
 export interface ILoginResponse {
-    message: string
+    message?: string,
+    accessToken: string,
+    refreshToken: string
 }

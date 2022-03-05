@@ -1,17 +1,18 @@
 import React, { Suspense, useEffect, useMemo } from "react";
+// Styles
+import "./App.scss";
 // Redux
 import { useDispatch } from "react-redux";
-// Redux actions
-import { getUserInfo } from "./store-deprecated/actions/userActions";
 // Lazy components
-import { Login, Home, NotFound, Profile, CreatePayment, CreateCustomer } from "./components/Lazy/Lazy";
+import { Login, Home, Profile, CreatePayment, CreateCustomer } from "./components/Lazy/Lazy";
+import NotFoundRoute from "./routes/not-found";
 // React router
 import { Route, Routes, Navigate } from "react-router-dom";
 // Routes type
 import GuestRoute from "./components/Routes/GuestRoute";
 import PrivateRoute from "./components/Routes/PrivateRoute";
-// Styles
-import "./App.scss";
+// Layout
+import Layout from "./components/Layout/Layout";
 // Navbar
 import Navbar from "./components/Navbar/Navbar";
 // Footer
@@ -77,34 +78,16 @@ const App = (): JSX.Element => {
         <CssBaseline />
         <Navbar />
         <Suspense fallback={<SuspenseFallback />}>
-          <Box
-            component="main"
-            sx={{
-              paddingBottom: userState.isAuth ? "50px" : 0,
-            }}
-          >
+          <Layout>
             <Routes>
+              <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
               <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-              {/*  <Route path="/login" element={<Login />} />*/}
-              {/*</Route>*/}
-              {/*<Route path="/login" element={<GuestRoute />}>*/}
-              {/*  <Route path="/login" element={<Login />} />*/}
-              {/*</Route>*/}
-              {/*<Route path="/" element={<PrivateRoute />}>*/}
-              {/*  <Route path="/" element={<Home />} />*/}
-              {/*</Route>*/}
-              {/*<Route path="/profile" element={<PrivateRoute />}>*/}
-              {/*  <Route path="/profile" element={<Profile title="Мой профиль" />} />*/}
-              {/*</Route>*/}
-              {/*<Route path="/create-payment" element={<PrivateRoute />}>*/}
-              {/*  <Route path="/create-payment" element={<CreatePayment title="Создание платежа" />} />*/}
-              {/*</Route>*/}
-              {/*<Route path="/create-customer" element={<PrivateRoute />}>*/}
-              {/*  <Route path="/create-customer" element={<CreateCustomer title="Создание клиента" />} />*/}
-              {/*</Route>*/}
-              <Route path="*" element={<NotFound title="Страница 404" />} />
+              <Route path="/profile" element={<PrivateRoute><Profile title="Мой профиль"/></PrivateRoute>} />
+              <Route path="/create-payment" element={<PrivateRoute><CreatePayment title="Создание платежа"/></PrivateRoute>} />
+              <Route path="/create-customer" element={<PrivateRoute><CreateCustomer title="Создание клиента"/></PrivateRoute>} />
+              <Route path="*" element={<NotFoundRoute title="Страница 404" />} />
             </Routes>
-          </Box>
+          </Layout>
         </Suspense>
         <Footer />
         <ScrollTop>

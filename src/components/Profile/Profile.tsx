@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 // Redux
 import {useSelector, useDispatch} from "react-redux";
-import {getUserInfo} from "../../store-deprecated/actions/userActions";
 // Project settings
 import {ProjectTitle} from "../../config";
 // Material UI

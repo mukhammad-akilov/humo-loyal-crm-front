@@ -1,11 +1,16 @@
-import {store} from "../store/store";
 import {IApiConfig, IApiErrorResponse} from "./httpService.interface";
-import {logout} from "../store/slices/userSlice";
-import {ApiUrl} from "../config";
 import {logoutCase} from "../utils/utils";
+import {logout} from "../store/slices/userSlice";
+import {EnhancedStore, ThunkDispatch} from "@reduxjs/toolkit";
 
 interface accessTokenConfig {
     accessToken: string;
+}
+
+let storeDispatch: ThunkDispatch<any, any, any>;
+
+export const injectStore = (_storeDispatch: ThunkDispatch<any, any, any>): void => {
+    storeDispatch = _storeDispatch;
 }
 
 const getToken = () => {
@@ -47,7 +52,7 @@ const abortControllerSignal = abortController.signal;
 const httpService = async <T>(apiConfig: IApiConfig, endpoint: string): Promise<T> => {
     try {
             // Accept / send cookies
-            apiConfig.credentials = "include";
+            // apiConfig.credentials = "include";
             // apiConfig.headers.auth = `Bearer ${getToken()}`;
             apiConfig.signal = abortControllerSignal;
 
@@ -77,7 +82,7 @@ const httpService = async <T>(apiConfig: IApiConfig, endpoint: string): Promise<
                 errorResponseJson = await response.json();
                 // Make logout
                 if(response.status === 401 && logoutCase.includes(errorResponseJson.reason.toLocaleLowerCase())) {
-                    store.dispatch(logout());
+                    storeDispatch(logout);
                 }
                 // Throw custom HTTP error
                 const error = new HttpError("Возникла ошибка во время запроса на сервер", response.status, errorResponseJson.reason);
