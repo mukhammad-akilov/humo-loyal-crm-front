@@ -7,9 +7,11 @@ import {Box, Typography} from "@mui/material";
 import {ProjectTitle} from "../../config";
 // Images
 import humoLogo from '../../assets/images/humo-white-logo.svg';
+// Redux
 import {useAppSelector} from "../../hooks/redux";
 
 const Footer = (): JSX.Element | null => {
+
     const userSate = useAppSelector(state => state.user);
     const location = useLocation();
 
@@ -28,6 +30,7 @@ const Footer = (): JSX.Element | null => {
                     <Box
                         component="img"
                         src={humoLogo}
+                        alt="МДО Хумо"
                         sx={{ width: "220px", margin: "auto"}}
                     />
                 </Box>

@@ -1,19 +1,17 @@
 import React, {useState, useEffect} from 'react';
 // Redux
-import {useDispatch, useSelector} from "react-redux";
-import {signInSuccess} from "../../store-deprecated/actions/userActions";
-import {handleSnackbar} from "../../store-deprecated/actions/snackbarActions";
+import {useDispatch} from "react-redux";
+import {signInSuccess} from "../../store/slices/userSlice";
+import {handleSnackbar} from "../../store/slices/snackbarSlice";
 import {useAppSelector} from "../../hooks/redux";
 // Project settings
 import {ProjectTitle, ApiUrl} from "../../config";
 import httpService, {HttpError} from "../../httpService/httpService";
 // Material UI
-import {Button, TextField, Link, Paper, Box, Grid, Typography,
-     CircularProgress, IconButton, InputAdornment} from "@mui/material";
+import {Button, TextField, Link, Paper, Box, Grid, Typography, IconButton, InputAdornment, LinearProgress, Avatar} from "@mui/material";
 // Icons
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {Visibility, VisibilityOff, LockOutlined} from "@mui/icons-material";
 // Images
-import humoLogo from '../../assets/images/humo-logo.svg';
 import humoLogoWhite from '../../assets/images/humo-white-logo.svg';
 import {IApiConfig} from "../../httpService/httpService.interface";
 import {ILoginRequest, ILoginResponse} from "../../interfaces/login.interface";
@@ -33,6 +31,7 @@ const Copyright = (): JSX.Element => {
 const Login = (): JSX.Element =>  {
     const dispatch = useDispatch();
     const userState = useAppSelector(state => state.user);
+
     // Form validation
     const [notValidateField, setNotValidateField] = useState({
         login: false,
@@ -68,25 +67,26 @@ const Login = (): JSX.Element =>  {
             };
 
             const responseJson = await httpService<ILoginResponse>(apiConfig, `${ApiUrl}login`);
+
             // const responseJson = await httpService<string>(apiConfig, `${ApiUrl}login`);
-            console.log(responseJson.message);
             // TS type guard example
             // if(typeof responseJson !== "string" && "message" in responseJson ) {
             //     console.log(responseJson.message)
             // }
-            // Save client auth in local storage
-            // localStorage.setItem("loyalty-lk-auth", JSON.stringify({accessToken: responseJson.accessToken, refreshToken: responseJson.refreshToken}))
-            // Update store-deprecated
-            dispatch(signInSuccess({
-                fullName: "ФИО",
-                // role: responseJson["user-type"]
-            }))
+
+            // Save user data in local storage
+            localStorage.setItem("loyalty-crm-user-auth", JSON.stringify({value: true}));
+            localStorage.setItem("loyalty-crm-user-role", JSON.stringify({value: "admin"}));
+            localStorage.setItem("loyalty-crm-user-access-token", JSON.stringify({value: responseJson.accessToken}));
+            localStorage.setItem("loyalty-crm-user-refresh-token", JSON.stringify({value: responseJson.refreshToken}));
+            // Update store
+            dispatch(signInSuccess("ФИО пользователя"));
             dispatch(handleSnackbar({
                 position: {
                     vertical: "top",
                     horizontal: "center",
                 },
-            }))
+            }));
         } catch (error) {
             setLoading(false);
             if(error instanceof HttpError) {
@@ -102,7 +102,6 @@ const Login = (): JSX.Element =>  {
                     },
                 }));
             }
-            throw  error;
         }
     };
 
@@ -119,8 +118,7 @@ const Login = (): JSX.Element =>  {
             >
                 <Grid
                     item
-                    xs={false}
-                    sm={6}
+                    xs={12}
                     md={4}
                     container
                     justifyContent="center"
@@ -130,14 +128,18 @@ const Login = (): JSX.Element =>  {
                         minHeight: "150px",
                     }}
                 >
-                   <Box my={2} style={{width: "100%"}}>
-                        <img src={humoLogoWhite} alt='humo-logo-white' style={{width: "50%", margin: "auto",}} />
+                   <Box my={2} sx={{width: "100%"}}>
+                        <Box
+                            component="img"
+                            src={humoLogoWhite}
+                            alt='МДО Хумо'
+                            sx={{width: "50%", margin: "auto"}}
+                        />
                     </Box>
                 </Grid>
                 <Grid
                     item
                     xs={12}
-                    sm={6}
                     md={8}
                     component={Paper}
                     elevation={6}
@@ -154,19 +156,18 @@ const Login = (): JSX.Element =>  {
                             alignItems: 'center',
                          }}
                     >
-                        {/* {userState.loadingInfo &&
-                            <CircularProgress size={30}/>
-                        } */}
-                        <Box mb={3} className="w-100">
-                            <Box
-                                component="img"
-                                src={humoLogo}
-                                sx={{width: "50%", margin: "auto"}}
-                            />
+                        <Box mb={1}>
+                            <Avatar
+                                sx={{backgroundColor: (theme) => theme.palette.primary.main}}
+                            >
+                                <LockOutlined />
+                            </Avatar>
                         </Box>
-                        <Box mb={3}>
+                        <Box mb={4}>
                             <Typography component="h1" variant="h5" align="center">
-                                Бонусная программа лояльности для бизнеса
+                                {ProjectTitle}
+                                <br />
+                                Вход в личный кабинет
                             </Typography>
                         </Box>
                         <form onSubmit={handleFormSubmit}>
@@ -220,7 +221,7 @@ const Login = (): JSX.Element =>  {
                             </Box>
                             {loading &&
                                 <Box mb={3} sx={{textAlign: "center"}}>
-                                    <CircularProgress size={30}/>
+                                    <LinearProgress color="secondary" />
                                 </Box>
                             }
                             <Box mb={4}>

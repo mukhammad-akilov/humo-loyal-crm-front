@@ -34,14 +34,13 @@ const CardLink = ({ title, link, ...props }: ICardLinkProps): JSX.Element => {
             padding: "15px",
             minHeight: "140px",
             height: "100%",
-            backgroundColor:(theme
-            ) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
+            backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
             "&:hover .cardIconContainer": {
               backgroundColor: (theme) => theme.palette.secondary.main,
-              color: "white",
+              color: "#FFFFFF",
             },
             "& .cardIconContainer": {
               border: (theme) => `2px solid ${theme.palette.secondary.main}`,
@@ -78,7 +77,6 @@ const Home = () => {
 
   return (
     <>
-      <Container maxWidth={false}>
         <Box my={4}>
           <Typography variant="h4" component="h1" gutterBottom align="center">
             Главная
@@ -98,7 +96,6 @@ const Home = () => {
             </Grid>)
           })}
         </Grid>
-      </Container>
     </>
   );
 };

@@ -1,9 +1,11 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {ApiUrl} from "../../config";
-import httpService from "../../httpService/httpService";
+import httpService, {HttpError} from "../../httpService/httpService";
+import {IApiConfig} from "../../httpService/httpService.interface";
+import {IUserInfoResponse} from "../../interfaces/profile.interface";
 
 let userAuth = null;
-const isUserAuth = localStorage.getItem("crm-auth");
+const isUserAuth = localStorage.getItem("loyalty-crm-user-auth");
 
 if(isUserAuth) {
     userAuth = JSON.parse(isUserAuth).value;
@@ -17,7 +19,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    isAuth: userAuth ? userAuth : false,
+    isAuth: userAuth ?? false, // Nullish coalescing operator
     fullName: "",
     loadingInfo: false,
     fetchError: null
@@ -27,18 +29,19 @@ export const fetchUserInfo = createAsyncThunk(
     'user/fetchUserInfo',
     async (userId: string, thunkAPI) => {
         try {
-            const apiConfig = {
+            const apiConfig: IApiConfig = {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
                 },
             };
 
-            const responseJson = await httpService(apiConfig, `${ApiUrl}get_me`);
+            const responseJson = await httpService<IUserInfoResponse>(apiConfig, `${ApiUrl}get_me`);
             return responseJson;
         } catch (error) {
-            console.log("Error while fetching user info", error);
-            // return error;
+            if(error instanceof HttpError) {
+                console.log(error.getErrorDetails());
+            }
             return thunkAPI.rejectWithValue('Возникла ошибка во время получения данных пользователя');
         }
     }
@@ -66,13 +69,13 @@ export const userSlice = createSlice({
             state.isAuth = false;
             state.fullName = "";
             state.loadingInfo = false;
-        }
+        },
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
             state.isAuth = true;
-            state.fullName = action.payload;
+            state.fullName = action.payload.fullName;
             state.loadingInfo = false;
         });
         builder.addCase(fetchUserInfo.pending, (state, action) => {
@@ -85,7 +88,6 @@ export const userSlice = createSlice({
     }
 });
 
-// export const {signInSuccess, startLoadingUserInfo, endLoadingUserInfo, setUserInfo, logout} =  userSlice.actions;
 export const {signInSuccess, setUserInfo, logout} =  userSlice.actions;
 
 export default userSlice.reducer;

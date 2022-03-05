@@ -6,14 +6,12 @@ import {CreateCustomerProps} from "./CreateCustomer.props";
 const CreateCustomer = ({title = "Заголовок пустой"}: CreateCustomerProps): JSX.Element => {
   return (
     <>
-      <Container maxWidth={false}>
         <Box my={4} sx={{ textAlign: "center" }}>
           <Typography variant="h4" component="h1" gutterBottom>
             {title}
           </Typography>
         </Box>
         <Breadcrumbs currentLinkText={title} />
-      </Container>
     </>
   );
 };

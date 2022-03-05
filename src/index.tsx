@@ -7,6 +7,9 @@ import {BrowserRouter as Router} from 'react-router-dom';
 // Redux
 import {store} from "./store/store";
 import {Provider} from "react-redux";
+// HttpService
+import {injectStore} from "./httpService/httpService";
+injectStore(store.dispatch);
 
 ReactDOM.render(
   <React.StrictMode>

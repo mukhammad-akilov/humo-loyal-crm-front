@@ -1,6 +1,6 @@
 import {PaletteMode} from "@mui/material";
 
-export const fullDay = (day:string): string => {
+export const fullDay = (day: string): string => {
     return (`0${day}`).slice(-2);
 };
 
