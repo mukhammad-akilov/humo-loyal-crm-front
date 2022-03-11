@@ -7,16 +7,17 @@ interface accessTokenConfig {
     accessToken: string;
 }
 
+// Injecting Redux Store
 let storeDispatch: ThunkDispatch<any, any, any>;
 
 export const injectStore = (_storeDispatch: ThunkDispatch<any, any, any>): void => {
     storeDispatch = _storeDispatch;
 }
 
-const getToken = () => {
-    if (localStorage.getItem("loyalty-lk-auth")) {
-        let token: accessTokenConfig = JSON.parse(localStorage.getItem("loyalty-lk-auth") || ""); 
-        return token?.accessToken;
+const getToken = (): string => {
+    const token = localStorage.getItem("loyalty-crm-user-access-token");
+    if(token) {
+        return JSON.parse(token).value;
     }
     return "";
 }
@@ -53,7 +54,7 @@ const httpService = async <T>(apiConfig: IApiConfig, endpoint: string): Promise<
     try {
             // Accept / send cookies
             // apiConfig.credentials = "include";
-            // apiConfig.headers.auth = `Bearer ${getToken()}`;
+            apiConfig.headers.auth = `Bearer ${getToken()}`;
             apiConfig.signal = abortControllerSignal;
 
             // Response settings
@@ -81,8 +82,8 @@ const httpService = async <T>(apiConfig: IApiConfig, endpoint: string): Promise<
              else {
                 errorResponseJson = await response.json();
                 // Make logout
-                if(response.status === 401 && logoutCase.includes(errorResponseJson.reason.toLocaleLowerCase())) {
-                    storeDispatch(logout);
+                if(response.status === 403 && logoutCase.includes(errorResponseJson.reason.toLocaleLowerCase())) {
+                    storeDispatch(logout());
                 }
                 // Throw custom HTTP error
                 const error = new HttpError("Возникла ошибка во время запроса на сервер", response.status, errorResponseJson.reason);

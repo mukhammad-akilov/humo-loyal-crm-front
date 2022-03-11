@@ -24,6 +24,7 @@ export const months : { [key: string]: string; } = {
 };
 
 export const logoutCase: string[] = [
+    "token lifetime is expired",
     "token is expired",
     "your token is not valid",
     "ресурс доступен внутри корпоративной сети",
