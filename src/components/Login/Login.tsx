@@ -37,10 +37,10 @@ const Login = (): JSX.Element =>  {
         login: false,
         password: false,
     });
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [login, setLogin] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const validateForm = (): boolean => {
         const validate = (login === "" ||  password === "" || loading);

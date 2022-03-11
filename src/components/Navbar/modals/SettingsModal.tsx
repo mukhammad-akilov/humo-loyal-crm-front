@@ -38,7 +38,7 @@ const SettingsModal = ({open, onClose, ...props}: SettingsModalProps): JSX.Eleme
             <Box sx={{ width: "400px"}} p={2}>
                 <Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
                     <Typography variant="h6"  component="h5">
-                        Настроки ЛК
+                        Настройки CRM
                     </Typography>
                     <Tooltip title="Закрыть">
                         <IconButton color="primary" onClick={onClose}>

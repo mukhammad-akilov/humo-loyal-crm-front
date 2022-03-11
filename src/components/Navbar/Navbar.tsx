@@ -166,7 +166,7 @@ const Navbar = () => {
                                     </Badge>
                                 </IconButton>
                             </Tooltip> */}
-                            <Tooltip title="Настройки ЛК">
+                            <Tooltip title="Настройки CRM">
                                 <IconButton
                                     size="large"
                                     aria-label="show new notifications"
