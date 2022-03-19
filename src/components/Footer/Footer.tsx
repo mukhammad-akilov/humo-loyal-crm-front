@@ -8,14 +8,13 @@ import {ProjectTitle} from "../../config";
 // Images
 import humoLogo from '../../assets/images/humo-white-logo.svg';
 // Redux
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 
 const Footer = (): JSX.Element | null => {
-
-    const userSate = useAppSelector(state => state.user);
+    const userState = useAppSelector(state => state.user);
     const location = useLocation();
 
-    if (userSate.isAuth || location.pathname === "/404") {
+    if (userState.isAuth || location.pathname === "/404") {
         return (
             <Box
                 component="footer"

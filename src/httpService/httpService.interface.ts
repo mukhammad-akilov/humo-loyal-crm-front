@@ -1,4 +1,4 @@
-interface IApiConfigHeaders {
+interface ApiConfigHeaders {
     [key: string]: string
 }
 
@@ -6,7 +6,8 @@ type HttpMethod =  "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 export interface IApiConfig {
     method: HttpMethod;
-    headers: IApiConfigHeaders;
+    // headers: HeadersInit;
+    headers: ApiConfigHeaders;
     credentials?: RequestCredentials;
     body?: BodyInit;
     signal?: AbortSignal;
@@ -16,7 +17,6 @@ export interface IApiConfig {
     func?: () => void;
 }
 
-export interface IApiErrorResponse {
-    statusCode: number,
+export interface ApiErrorResponse {
     reason: string,
 }

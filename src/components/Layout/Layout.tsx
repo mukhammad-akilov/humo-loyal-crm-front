@@ -1,7 +1,7 @@
 import {LayoutProps} from "./Layout.props";
 import {Container, Box} from "@mui/material";
 // Redux
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 // React Router
 import {useLocation} from "react-router-dom";
 

@@ -11,6 +11,7 @@ import {IApiConfig} from "../../httpService/httpService.interface";
 import {CreatePaymentRequest, CreatePaymentResponse, Field, PreCheck} from "../../interfaces/payment.interface";
 import l_times from "lodash/times";
 import PaymentModal from "./modals/PaymentModal";
+import useHttpService from "../../customHooks/useHttpService";
 
 interface FieldWithValue extends Field {
     value: string
@@ -27,11 +28,19 @@ const CreatePayment = ({title = "Заголовок пустой", ...restProps}
     const [loadingFields, setLoadingFields] = useState<boolean>(false);
     const [loadingPreCheck, setLoadingPreCheck] = useState<boolean>(false);
     const [loadingPayment, setLoadingPayment] = useState<boolean>(false);
+    // Fields
     const [fields, setFields] = useState<FieldWithValue[]>([]);
     const [preCheckInfo, setPreCheckInfo] = useState<Partial<PreCheckWithStatus>>({});
     // Modals
     const [openPaymentModal, setOpenPaymentModal] = useState<boolean>(false);
-
+    // Fields by custom hook
+    const apiConfig: IApiConfig = {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        },
+    };
+    const [customHookLoading, value, error] = useHttpService<Field[]>(apiConfig, `${ApiUrl}get_fields/precheck`, []);
 
     const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement>, changeField: FieldWithValue): void => {
         // console.log(event.target.value, changeField);
@@ -46,7 +55,7 @@ const CreatePayment = ({title = "Заголовок пустой", ...restProps}
             let urlParams: string = "";
             // Combine URL params with JS Map object
             const urlParamsMap = new Map();
-            for (let field of fields) {
+            for (const field of fields) {
                 urlParamsMap.set(field.req_key, field.value);
             }
 
@@ -146,7 +155,6 @@ const CreatePayment = ({title = "Заголовок пустой", ...restProps}
                                            variant="outlined"
                                            required={field.required}
                                            fullWidth
-                                           id="login"
                                            label={field.title}
                                            name={field.req_key}
                                            value={field.value}

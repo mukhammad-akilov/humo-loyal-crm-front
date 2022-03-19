@@ -11,18 +11,22 @@ if(isUserAuth) {
     userAuth = JSON.parse(isUserAuth).value;
 }
 
+enum Role {ADMIN, MERCHANT, MERCHANT_EMPLOYEE}
+
 interface UserState {
     isAuth: boolean,
     fullName: string,
     loadingInfo: boolean,
-    fetchError: null | string
+    fetchError: null | string,
+    role: Role
 }
 
 const initialState: UserState = {
     isAuth: userAuth ?? false, // Nullish coalescing operator
     fullName: "",
     loadingInfo: false,
-    fetchError: null
+    fetchError: null,
+    role: Role.MERCHANT,
 };
 
 export const fetchUserInfo = createAsyncThunk(
@@ -35,7 +39,6 @@ export const fetchUserInfo = createAsyncThunk(
                     Accept: "application/json",
                 },
             };
-
             const responseJson = await httpService<IUserInfoResponse>(apiConfig, `${ApiUrl}get_me`);
             return responseJson;
         } catch (error) {
