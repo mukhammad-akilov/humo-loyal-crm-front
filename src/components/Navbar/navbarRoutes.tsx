@@ -17,7 +17,7 @@ export interface INavbarRoute {
     links?: INavbarLink []
 }
 
-const navbarRoutes: INavbarRoute [] = [
+const navbarRoutes: INavbarRoute[] = [
     {
       title: "Главная",
       link: "/",

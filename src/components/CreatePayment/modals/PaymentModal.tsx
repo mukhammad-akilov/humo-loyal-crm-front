@@ -9,7 +9,6 @@ import {ApiUrl} from "../../../config";
 import {handleSnackbar} from "../../../store/slices/snackbarSlice";
 import {PaymentModalProps} from "./PaymentModal.props";
 
-
 const PaymentModal = ({open: openDialog, preCheck, onSuccessClose, onClose}: PaymentModalProps): JSX.Element => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState<boolean>(false)

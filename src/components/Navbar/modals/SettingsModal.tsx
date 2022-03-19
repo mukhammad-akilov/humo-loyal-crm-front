@@ -2,7 +2,7 @@ import React from "react";
 // Redux
 import {useDispatch, useSelector} from "react-redux";
 import {changeTheme} from "../../../store/slices/themeSlice";
-import {useAppSelector} from "../../../hooks/redux";
+import {useAppSelector} from "../../../customHooks/redux";
 // Material UI
 import {
     Drawer,

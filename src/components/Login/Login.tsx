@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from "react-redux";
 import {signInSuccess} from "../../store/slices/userSlice";
 import {handleSnackbar} from "../../store/slices/snackbarSlice";
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 // Project settings
 import {ProjectTitle, ApiUrl} from "../../config";
 import httpService, {HttpError} from "../../httpService/httpService";
@@ -220,7 +220,7 @@ const Login = (): JSX.Element =>  {
                                 />
                             </Box>
                             {loading &&
-                                <Box mb={3} sx={{textAlign: "center"}}>
+                                <Box mb={3}>
                                     <LinearProgress color="secondary" />
                                 </Box>
                             }

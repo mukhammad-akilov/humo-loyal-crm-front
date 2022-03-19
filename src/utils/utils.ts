@@ -1,6 +1,6 @@
 import {PaletteMode} from "@mui/material";
 
-export const fullDay = (day: string): string => {
+export const fullDay = (day: number): string => {
     return (`0${day}`).slice(-2);
 };
 
@@ -42,7 +42,7 @@ export const isWebLink = (link: string): boolean => {
 };
 
 export const isValidHttpUrl = (link: string): boolean => {
-    let url;
+    let url: URL;
     try {
         url = new URL(link);
     } catch (_) {
@@ -74,3 +74,12 @@ export const handleThemeChangeToLocalStorage = (theme: PaletteMode): void => {
     localStorage.setItem("loyalty-lk-theme", JSON.stringify({value: theme}))
 }
 
+export const normalizePhoneNumber = (phoneNumber: string): string => {
+    phoneNumber = phoneNumber.replace(/-/g, "");
+    phoneNumber = phoneNumber.replace(/ /g, "");
+    phoneNumber = phoneNumber.replace("+", "");
+    phoneNumber = phoneNumber.replace("(", "");
+    phoneNumber = phoneNumber.replace(")", "");
+    phoneNumber = phoneNumber.trim();
+    return phoneNumber;
+}

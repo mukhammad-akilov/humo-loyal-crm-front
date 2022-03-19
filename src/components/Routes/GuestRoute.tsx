@@ -1,6 +1,6 @@
 import  {ReactNode} from 'react';
 import {Outlet, Navigate } from 'react-router-dom';
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 
 interface GuestRouteProps {
     children: ReactNode

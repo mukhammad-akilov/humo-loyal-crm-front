@@ -9,7 +9,7 @@ import {store} from "./store/store";
 import {Provider} from "react-redux";
 // HttpService
 import {injectStore} from "./httpService/httpService";
-injectStore(store.dispatch);
+injectStore(store.dispatch, store.getState, store.subscribe);
 
 ReactDOM.render(
   <React.StrictMode>

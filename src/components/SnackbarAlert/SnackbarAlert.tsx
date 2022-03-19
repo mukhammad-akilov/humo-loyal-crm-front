@@ -1,7 +1,7 @@
 import React, {forwardRef}  from 'react';
 // Redux
 import {useDispatch} from "react-redux";
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 import {handleSnackbar} from "../../store/slices/snackbarSlice";
 // Material UI
 import {Snackbar} from "@mui/material";

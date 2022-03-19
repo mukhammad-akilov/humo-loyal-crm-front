@@ -17,7 +17,7 @@ import {
 import {ArrowForward} from "@mui/icons-material";
 import navbarRoutes from "../Navbar/navbarRoutes";
 // Redux
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 
 interface ICardLinkProps {
     title: string,
@@ -91,9 +91,17 @@ const Home = () => {
           {navbarRoutes.map((item: INavbarRoute, index: number) => {
             if (item.title === "Главная" || item.type === "divider" || item.link === undefined) return null;
 
-            return (<Grid  key={index} item xs={12} sm={6} md={4} lg={3}>
-              <CardLink title={item.title} link={item.link} />
-            </Grid>)
+            return (
+                <Grid
+                    key={index}
+                    item xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                >
+                    <CardLink title={item.title} link={item.link} />
+                </Grid>
+            )
           })}
         </Grid>
     </>

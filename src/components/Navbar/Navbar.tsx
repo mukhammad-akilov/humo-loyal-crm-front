@@ -1,7 +1,7 @@
 import React, {useState, Fragment} from 'react';
 // Redux
 import {useDispatch} from "react-redux";
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../customHooks/redux";
 import {logout} from "../../store/slices/userSlice";
 // TS types
 import {INavbarRoute, INavbarLink} from "./navbarRoutes";

@@ -32,7 +32,9 @@ import SuspenseFallback from "./components/SuspenseFallback/SuspenseFallback";
 import { handleSystemTheme } from "./utils/utils";
 import {ProjectTheme} from "./config";
 // Redux
-import {useAppSelector} from "./hooks/redux";
+import {useAppSelector} from "./customHooks/redux";
+// Captcha modal
+import CaptchaModal from "./components/CaptchaModal/CaptchaModal";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -96,6 +98,7 @@ const App = (): JSX.Element => {
           </Fab>
         </ScrollTop>
         <SnackbarAlert />
+        <CaptchaModal />
       </ThemeProvider>
     </Box>
   );
