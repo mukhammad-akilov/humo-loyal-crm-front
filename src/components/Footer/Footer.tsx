@@ -40,9 +40,8 @@ const Footer = (): JSX.Element | null => {
                 </Box>
             </Box>
         );
-    } else {
-        return  null;
     }
+    return null;
 };
 
 export default  Footer;

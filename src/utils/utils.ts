@@ -1,4 +1,6 @@
 import {PaletteMode} from "@mui/material";
+import {UserPermissions} from "../interfaces/user.interface";
+import {AccessStatus} from "../components/CanAccess/CanAccess";
 
 export const fullDay = (day: number): string => {
     return (`0${day}`).slice(-2);
@@ -66,12 +68,11 @@ export const handleSystemTheme = (): PaletteMode => {
 }
 
 export const removeAuthDataFromLocalStorage = (): void => {
-    // Remove auth and user type state from localstorage
-    localStorage.removeItem("loyalty-lk-auth");
+    localStorage.removeItem("loyalty-crm-user-auth");
 }
 
 export const handleThemeChangeToLocalStorage = (theme: PaletteMode): void => {
-    localStorage.setItem("loyalty-lk-theme", JSON.stringify({value: theme}))
+    localStorage.setItem("loyalty-crm-theme-mode", JSON.stringify({value: theme}))
 }
 
 export const normalizePhoneNumber = (phoneNumber: string): string => {
@@ -82,4 +83,55 @@ export const normalizePhoneNumber = (phoneNumber: string): string => {
     phoneNumber = phoneNumber.replace(")", "");
     phoneNumber = phoneNumber.trim();
     return phoneNumber;
+}
+
+// export const canVisitPage = (permissions: UserPermissions[], pageRoute: string): Boolean => {
+//     // Don't check home page for access
+//     if (pageRoute === "/") return true
+//
+//     const result = permissions.find(permission => permission.page.code === pageRoute);
+//     console.log("Result", result);
+//     return result ? true : false; // or return !!result
+// }
+
+export const canVisitPage = (permissions: UserPermissions[], pageRoute: string): AccessStatus => {
+    // Don't check home page for access
+    if (pageRoute === "/") return AccessStatus.Active;
+
+    const result = permissions.find(permission => permission.page.code === pageRoute);
+    if(result) {
+        switch (result.page.status.toLocaleLowerCase()) {
+            case "active":
+                return AccessStatus.Active;
+            case "hidden":
+                return AccessStatus.Hidden;
+            case "disabled":
+                return AccessStatus.Disabled;
+            default:
+                return AccessStatus.Hidden;
+        }
+    }
+
+    return AccessStatus.Hidden;
+}
+
+export const canDoAction = (permissions: UserPermissions[], route: string, actionId: string): AccessStatus => {
+    const pagePermissionResult = permissions.find(permission => permission.page.code === route);
+    if(pagePermissionResult) {
+       const actionPermissionResult = pagePermissionResult.page.actions.find(action => action.code.toString() === actionId);
+        if(actionPermissionResult) {
+            switch (actionPermissionResult.status.toLocaleLowerCase()) {
+                case "active":
+                    return AccessStatus.Active;
+                case "hidden":
+                    return AccessStatus.Hidden;
+                case "disabled":
+                    return AccessStatus.Disabled;
+                default:
+                    return AccessStatus.Hidden;
+            }
+        }
+    }
+
+    return AccessStatus.Hidden;
 }

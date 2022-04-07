@@ -1,40 +1,49 @@
+import React from "react";
 import { Home as HomeIcon, Payment,PersonAdd } from "@mui/icons-material";
 
-export interface INavbarLink {
+export interface NavbarLink {
     title: string,
     link: string,
     icon: JSX.Element,
     type: string
 }
 
-export interface INavbarRoute {
+export interface NavbarRoute {
     title: string,
     link?: string,
-    icon: JSX.Element,
-    type: string,
+    icon: React.ReactNode,
+    type: NavbarItemType,
     openValue?: boolean,
     openFunc?: (state: boolean) => void;
-    links?: INavbarLink []
+    links?: NavbarLink []
 }
 
-const navbarRoutes: INavbarRoute[] = [
+export enum NavbarItemType {Link, Dropdown, Divider}
+
+const navbarRoutes: NavbarRoute[] = [
     {
       title: "Главная",
       link: "/",
       icon: <HomeIcon color="primary" />,
-      type: "link",
+      type: NavbarItemType.Link,
     },
     {
       title: "Создание платежа",
       link: "/create-payment",
       icon: <Payment color="primary" />,
-      type: "link",
+      type: NavbarItemType.Link,
     },
     {
       title: "Создание клиента",
       link: "/create-customer",
       icon: <PersonAdd color="primary" />,
-      type: "link",
+      type: NavbarItemType.Link,
+    },
+    {
+        title: "Список бонусов",
+        link: "/bonuses",
+        icon: <PersonAdd color="primary" />,
+        type: NavbarItemType.Link,
     },
   ];
 

@@ -1,6 +1,6 @@
-import {ReactElement} from "react";
+import React from "react";
 
 export interface TooltipProps {
     title: string,
-    children: ReactElement
+    children: React.ReactElement
 }

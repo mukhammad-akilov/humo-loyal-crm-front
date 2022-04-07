@@ -12,6 +12,9 @@ import {useDispatch} from "react-redux";
 import l_times from "lodash/times";
 import {normalizePhoneNumber} from "../../utils/utils";
 import sha256 from "crypto-js/sha256";
+// Access
+import CanAccess from "../CanAccess/CanAccess";
+import CardLink from "../CardLink/CardLink";
 
 interface FieldWithValue extends Field {
     value: string
@@ -236,14 +239,21 @@ const CreateCustomer = ({title = "Заголовок пустой"}: CreateCusto
                     </Box>
                 }
                 <Box mb={3} sx={{textAlign: "center"}}>
-                    <Button
-                        variant="outlined"
-                        color="secondary"
-                        disabled={loadingOtp || loadingFields}
-                        onClick={sendOtp}
-                    >
-                        Получить СМС-код
-                    </Button>
+                    <CanAccess
+                        accessType="action"
+                        route="/create-customer"
+                        actionId="4321"
+                        component={
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                disabled={loadingOtp || loadingFields}
+                                onClick={sendOtp}
+                            >
+                                Получить СМС-код
+                            </Button>
+                        }
+                    />
                 </Box>
                     {loadingOtp &&
                         <Box mb={3}>

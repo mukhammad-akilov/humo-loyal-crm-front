@@ -3,11 +3,12 @@ import React, { Suspense, useEffect, useMemo } from "react";
 import "./App.scss";
 // Redux
 import { useDispatch } from "react-redux";
+import {fetchUserInfo} from "./store/slices/userSlice";
 // Lazy components
 import { Login, Home, Profile, CreatePayment, CreateCustomer } from "./components/Lazy/Lazy";
 import NotFoundRoute from "./routes/not-found";
 // React router
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 // Routes type
 import GuestRoute from "./components/Routes/GuestRoute";
 import PrivateRoute from "./components/Routes/PrivateRoute";
@@ -35,6 +36,7 @@ import {ProjectTheme} from "./config";
 import {useAppSelector} from "./customHooks/redux";
 // Captcha modal
 import CaptchaModal from "./components/CaptchaModal/CaptchaModal";
+import PermissionsModal from "./components/PermissionsModal/PermissionsModal";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -65,11 +67,15 @@ const App = (): JSX.Element => {
   );
 
   useEffect(() => {
-    // dispatch(getUserInfo());
-  }, []);
+    console.log("Run only once");
+    if(userState.isAuth) {
+      dispatch(fetchUserInfo());
+    }
+  }, [userState.isAuth]);
 
   return (
     <Box
+        className="crm-test-class"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -94,11 +100,12 @@ const App = (): JSX.Element => {
         <Footer />
         <ScrollTop>
           <Fab color="primary" size="large" aria-label="scroll back to top">
-            <KeyboardArrowUpOutlined style={{ color: "#FFFFFF" }} />
+            <KeyboardArrowUpOutlined sx={{ color: "#FFFFFF" }} />
           </Fab>
         </ScrollTop>
         <SnackbarAlert />
         <CaptchaModal />
+        <PermissionsModal />
       </ThemeProvider>
     </Box>
   );

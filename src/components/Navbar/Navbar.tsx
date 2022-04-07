@@ -1,25 +1,44 @@
-import React, {useState, Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 // Redux
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../customHooks/redux";
 import {logout} from "../../store/slices/userSlice";
 // TS types
-import {INavbarRoute, INavbarLink} from "./navbarRoutes";
+import navbarRoutes, {NavbarItemType, NavbarLink, NavbarRoute} from "./navbarRoutes";
 // Project settings
 import {ProjectTitle} from "../../config";
 // React router
-import {Link as RouterLink, useNavigate , useLocation} from 'react-router-dom';
+import {Link as RouterLink, useLocation, useNavigate} from 'react-router-dom';
 // Material UI
-import { Drawer, Collapse, List, Divider, AppBar, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, IconButton, Typography,
-    Menu, MenuItem, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box} from '@mui/material';
+import {AppBar, Box, Button,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Drawer,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography
+} from '@mui/material';
 // Tooltip
 import Tooltip from "../Tooltip/Tooltip";
 // Icons
-import {Menu as MenuIcon, AccountCircle, ExitToApp, ExpandLess, ExpandMore, Settings, Notifications} from "@mui/icons-material";
+import {AccountCircle, ExitToApp, ExpandLess, ExpandMore, Menu as MenuIcon, Settings} from "@mui/icons-material";
 // Images
 import humoLogo from '../../assets/images/humo-white-logo-no-text.svg';
+// Modals
 import SettingsModal from "./modals/SettingsModal";
-import navbarRoutes from './navbarRoutes';
+import CanAccess from "../CanAccess/CanAccess";
 
 const Navbar = () => {
     const userState = useAppSelector(state => state.user);
@@ -30,16 +49,15 @@ const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const appBarMenuOpen = Boolean(anchorEl);
     // Modals
-    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [openLogoutDialog, setOpenLogoutDialog] = useState<boolean>(false);
     const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
 
-    const childIsActive = (children: INavbarLink[] | undefined): boolean => {
+    const childIsActive = (children: NavbarLink[] | undefined): boolean => {
         if(children !== undefined) {
-            const result = children.filter((child: INavbarLink) => location.pathname === child.link);
+            const result = children.filter((child: NavbarLink) => location.pathname === child.link);
             return result.length > 0;
-        } else {
-            return false;
         }
+        return false;
     };
 
     // const childIsActive = (link: string | undefined): boolean => {
@@ -53,80 +71,91 @@ const Navbar = () => {
         setOpenDrawer(open);
     };
 
-
     const SideList = (): JSX.Element => {
         return (
             <Box
                 sx={{ width: "280px"}}
                 role="presentation"
+                // onClick={event => {toggleDrawer( false); alert("Click")}}
                 onClick={toggleDrawer( false)}
                 onKeyDown={toggleDrawer( false)}
             >
-                <List component="nav">
-                    {navbarRoutes.map((navbarItem: INavbarRoute, index: number): JSX.Element | null => {
-                        switch(navbarItem.type) {
-                            case "link":
-                                return (
-                                    <ListItemButton
-                                        component={RouterLink}
-                                        to={navbarItem.link!}
-                                        key={index}
-                                        selected={location.pathname === navbarItem.link}
-                                    >
-                                        <ListItemIcon>{navbarItem.icon}</ListItemIcon>
-                                        <ListItemText primary={navbarItem.title} />
-                                    </ListItemButton>
-                                );
-                                break;
-                            case "dropdown":
-                                return (
-                                    <Fragment key={index}>
-                                        <ListItemButton
-                                            selected={childIsActive(navbarItem.links)}
-                                            onClick={e => {navbarItem.openFunc?.(!navbarItem.openValue); e.stopPropagation();}}
-                                        >
-                                            <ListItemIcon>{navbarItem.icon}</ListItemIcon>
-                                            <ListItemText primary={navbarItem.title} />
-                                            {navbarItem.openValue ? <ExpandLess /> : <ExpandMore />}
-                                        </ListItemButton>
-                                        <Collapse in={navbarItem.openValue} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding>
-                                                {navbarItem.links?.map((nestedLink, counter) => (
-                                                    <ListItemButton
-                                                        sx={{paddingLeft: (theme) => theme.spacing(4)}}
-                                                        component={RouterLink}
-                                                        to={nestedLink.link}
-                                                        selected={location.pathname === nestedLink.link}
-                                                        key={counter}
-                                                    >
-                                                        <ListItemIcon>{nestedLink.icon}</ListItemIcon>
-                                                        <ListItemText primary={nestedLink.title} />
-                                                    </ListItemButton>
-                                                ))}
-                                            </List>
-                                        </Collapse>
-                                    </Fragment>
-                                );
-                                break;
-                            case "divider":
-                                return (
-                                    <Divider sx={{margin: "12px 0"}} key={index} />
-                                );
-                                break;
-                            default:
-                                return null;
-                        }
-                    })}
-                    <ListItem
-                        button
-                        onClick={() => setDialogOpen(true)}
-                    >
-                        <ListItemIcon>
-                            <ExitToApp color="primary" />
-                        </ListItemIcon>
-                        <ListItemText primary="Выйти" />
-                    </ListItem>
-                </List>
+                {userState.loadingInfo ?
+                    <div>
+                        Loading skeleton
+                    </div>
+                    :
+                    <List component="nav">
+                        {navbarRoutes.map((navbarItem: NavbarRoute, index: number): JSX.Element | null => {
+                            switch(navbarItem.type) {
+                                case NavbarItemType.Link:
+                                    return (
+                                        <CanAccess
+                                            accessType="page"
+                                            key={index}
+                                            route={navbarItem.link!}
+                                            component={
+                                                <ListItemButton
+                                                    component={RouterLink}
+                                                    to={navbarItem.link!}
+                                                    // onClick={(event: React.MouseEvent<HTMLAnchorElement>) => event.preventDefault()}
+                                                    selected={location.pathname === navbarItem.link}
+                                                    // sx={{pointerEvents: "auto!important"}}
+                                                >
+                                                    <ListItemIcon>{navbarItem.icon}</ListItemIcon>
+                                                    <ListItemText primary={navbarItem.title} />
+                                                </ListItemButton>
+                                            }
+                                        />
+                                    )
+                                case NavbarItemType.Dropdown:
+                                    return (
+                                        <Fragment key={index}>
+                                            <ListItemButton
+                                                selected={childIsActive(navbarItem.links)}
+                                                onClick={e => {navbarItem.openFunc?.(!navbarItem.openValue); e.stopPropagation();}}
+                                            >
+                                                <ListItemIcon>{navbarItem.icon}</ListItemIcon>
+                                                <ListItemText primary={navbarItem.title} />
+                                                {navbarItem.openValue ? <ExpandLess /> : <ExpandMore />}
+                                            </ListItemButton>
+                                            <Collapse in={navbarItem.openValue} timeout="auto" unmountOnExit>
+                                                <List component="div" disablePadding>
+                                                    {navbarItem.links?.map((nestedLink, counter) => (
+                                                        <ListItemButton
+                                                            sx={{paddingLeft: (theme) => theme.spacing(4)}}
+                                                            component={RouterLink}
+                                                            to={nestedLink.link}
+                                                            selected={location.pathname === nestedLink.link}
+                                                            key={counter}
+                                                        >
+                                                            <ListItemIcon>{nestedLink.icon}</ListItemIcon>
+                                                            <ListItemText primary={nestedLink.title} />
+                                                        </ListItemButton>
+                                                    ))}
+                                                </List>
+                                            </Collapse>
+                                        </Fragment>
+                                    );
+                                case NavbarItemType.Divider:
+                                    return (
+                                        <Divider sx={{margin: "12px 0"}} key={index} />
+                                    );
+                                default:
+                                    return null;
+                            }
+                        })}
+                        <ListItem
+                            button
+                            onClick={() => setOpenLogoutDialog(true)}
+                        >
+                            <ListItemIcon>
+                                <ExitToApp color="primary" />
+                            </ListItemIcon>
+                            <ListItemText primary="Выйти" />
+                        </ListItem>
+                    </List>
+                }
             </Box>
         )
     };
@@ -202,7 +231,7 @@ const Navbar = () => {
                                 onClose={() =>  setAnchorEl(null)}
                             >
                                 <MenuItem onClick={() =>  {setAnchorEl(null);  navigate("/profile");}}>Мой профиль</MenuItem>
-                                <MenuItem onClick={() =>  {setAnchorEl(null); setDialogOpen(true);}}>Выйти</MenuItem>
+                                <MenuItem onClick={() =>  {setAnchorEl(null); setOpenLogoutDialog(true);}}>Выйти</MenuItem>
                             </Menu>
                         </Box>
                     </Toolbar>
@@ -215,8 +244,8 @@ const Navbar = () => {
                    <SideList />
                 </Drawer>
                 <Dialog
-                    open={dialogOpen}
-                    onClose={()=> setDialogOpen(false)}
+                    open={openLogoutDialog}
+                    onClose={()=> setOpenLogoutDialog(false)}
                 >
                     <DialogTitle>{"Выход"}</DialogTitle>
                     <DialogContent>
@@ -226,14 +255,14 @@ const Navbar = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button
-                            onClick={() => setDialogOpen(false)}
+                            onClick={() => setOpenLogoutDialog(false)}
                             color="secondary"
                             variant="contained"
                         >
                             Нет
                         </Button>
                         <Button
-                            onClick={() => {setDialogOpen(false); dispatch(logout());}}
+                            onClick={() => {setOpenLogoutDialog(false); dispatch(logout());}}
                             color="secondary"
                             autoFocus
                             variant="contained"

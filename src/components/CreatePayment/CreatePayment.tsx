@@ -23,6 +23,7 @@ interface PreCheckWithStatus extends PreCheck {
 }
 
 const CreatePayment = ({title = "Заголовок пустой", ...restProps}: CreatePaymentProps): JSX.Element => {
+
     const dispatch = useDispatch();
     // Loading
     const [loadingFields, setLoadingFields] = useState<boolean>(false);
