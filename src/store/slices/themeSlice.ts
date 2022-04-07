@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PaletteMode} from "@mui/material";
 
 let lkThemeMode = null;
-const isLkThemeMode = localStorage.getItem("loyalty-lk-theme-mode");
+const isLkThemeMode = localStorage.getItem("loyalty-crm-theme-mode");
 
 if(isLkThemeMode) {
     lkThemeMode = JSON.parse(isLkThemeMode).value;

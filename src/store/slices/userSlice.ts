@@ -2,7 +2,7 @@ import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {ApiUrl} from "../../config";
 import httpService, {HttpError} from "../../httpService/httpService";
 import {IApiConfig} from "../../httpService/httpService.interface";
-import {IUserInfoResponse} from "../../interfaces/profile.interface";
+import {UserInfoResponse, UserPermissions, UserInfo} from "../../interfaces/user.interface";
 
 let userAuth = null;
 const isUserAuth = localStorage.getItem("loyalty-crm-user-auth");
@@ -14,32 +14,36 @@ if(isUserAuth) {
 enum Role {ADMIN, MERCHANT, MERCHANT_EMPLOYEE}
 
 interface UserState {
-    isAuth: boolean,
-    fullName: string,
-    loadingInfo: boolean,
-    fetchError: null | string,
-    role: Role
+    isAuth: boolean;
+    fullName: string;
+    username: string;
+    loadingInfo: boolean;
+    fetchError: null | string;
+    role: Role;
+    permissions?: UserPermissions[];
 }
 
 const initialState: UserState = {
     isAuth: userAuth ?? false, // Nullish coalescing operator
     fullName: "",
+    username: "",
     loadingInfo: false,
     fetchError: null,
     role: Role.MERCHANT,
 };
 
-export const fetchUserInfo = createAsyncThunk(
-    'user/fetchUserInfo',
-    async (userId: string, thunkAPI) => {
+export const fetchUserInfo= createAsyncThunk(
+    "user/fetchUserInfo",
+    async ( _: void, thunkAPI) => {
         try {
             const apiConfig: IApiConfig = {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
                 },
-            };
-            const responseJson = await httpService<IUserInfoResponse>(apiConfig, `${ApiUrl}get_me`);
+            }
+
+            const responseJson = await httpService<UserInfo>(apiConfig, `${ApiUrl}get_me`);
             return responseJson;
         } catch (error) {
             if(error instanceof HttpError) {
@@ -76,9 +80,10 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
-        builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
+        builder.addCase(fetchUserInfo.fulfilled, (state, action: PayloadAction<UserInfo>) => {
             state.isAuth = true;
-            state.fullName = action.payload.fullName;
+            state.fullName = `${action.payload.last_name} ${action.payload.first_name}`;
+            state.permissions = action.payload.permissions;
             state.loadingInfo = false;
         });
         builder.addCase(fetchUserInfo.pending, (state, action) => {

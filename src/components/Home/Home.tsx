@@ -1,75 +1,14 @@
-import React, {useEffect } from "react";
-// React Router
-import { Link as RouterLink } from "react-router-dom";
+import  {useEffect} from "react";
 // Project settings
 import {ProjectTitle} from "../../config";
 // Navbar interface
-import {INavbarRoute} from "../Navbar/navbarRoutes";
+import navbarRoutes, {NavbarItemType, NavbarRoute} from "../Navbar/navbarRoutes";
 // Material UI
-import {
-  Box,
-  Container,
-  Grid,
-  ButtonBase,
-  Typography,
-} from "@mui/material";
-// Icons
-import {ArrowForward} from "@mui/icons-material";
-import navbarRoutes from "../Navbar/navbarRoutes";
-// Redux
-import {useAppSelector} from "../../customHooks/redux";
-
-interface ICardLinkProps {
-    title: string,
-    link: string
-}
-
-const CardLink = ({ title, link, ...props }: ICardLinkProps): JSX.Element => {
-  return (
-    <Box boxShadow={3} sx={{ height: "100%" }}>
-      <ButtonBase
-          component={RouterLink}
-          to={link}
-          sx={{
-            padding: "15px",
-            minHeight: "140px",
-            height: "100%",
-            backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            "&:hover .cardIconContainer": {
-              backgroundColor: (theme) => theme.palette.secondary.main,
-              color: "#FFFFFF",
-            },
-            "& .cardIconContainer": {
-              border: (theme) => `2px solid ${theme.palette.secondary.main}`,
-              borderRadius: "50%",
-              alignSelf: "flex-end",
-              width: "42px",
-              height: "42px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: (theme) => theme.palette.secondary.main,
-              transition: "all 0.2s linear",
-            },
-          }}
-      >
-        <Typography gutterBottom variant="h6" component="h2" sx={{ width: "100%", marginBottom: "1rem"}}>
-          {title}
-        </Typography>
-        <Box className="cardIconContainer">
-          <ArrowForward fontSize="large" color="inherit" />
-        </Box>
-      </ButtonBase>
-    </Box>
-  );
-};
-
+import {Box, Grid,Typography} from "@mui/material";
+import CanAccess from "../CanAccess/CanAccess";
+import CardLink from "../CardLink/CardLink";
 
 const Home = () => {
-  const userState = useAppSelector(state => state.user);
 
   useEffect(() => {
     document.title = `Главная | ${ProjectTitle}`;
@@ -88,18 +27,26 @@ const Home = () => {
           </Typography>
         </Box>
         <Grid container spacing={2}>
-          {navbarRoutes.map((item: INavbarRoute, index: number) => {
-            if (item.title === "Главная" || item.type === "divider" || item.link === undefined) return null;
-
+          {navbarRoutes.map((item: NavbarRoute, index: number) => {
+            if (item.title === "Главная" || item.type !== NavbarItemType.Link) return null;
             return (
                 <Grid
-                    key={index}
                     item xs={12}
                     sm={6}
                     md={4}
                     lg={3}
+                    key={index}
                 >
-                    <CardLink title={item.title} link={item.link} />
+                    <CanAccess
+                        accessType="page"
+                        route={item.link!}
+                        component={
+                            <CardLink
+                                title={item.title}
+                                link={item.link!}
+                            />
+                        }
+                    />
                 </Grid>
             )
           })}

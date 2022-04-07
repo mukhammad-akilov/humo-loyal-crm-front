@@ -54,16 +54,13 @@ export class HttpError extends Error {
     }
 }
 
-
-// export const abortController = new AbortController();
-// const abortControllerSignal = abortController.signal;
-
 const httpService = async <T>(apiConfig: IApiConfig, endpoint: string, abortController: AbortController = new AbortController(), captchaCode?: string): Promise<T> => {
     try {
             storeDispatch(handleCaptchaRequest(false));
 
             // Accept / send cookies
             // apiConfig.credentials = "include";
+            // Add auth Bearer Token in header
             apiConfig.headers.auth = `Bearer ${getToken()}`;
 
             apiConfig.signal = abortController.signal;
