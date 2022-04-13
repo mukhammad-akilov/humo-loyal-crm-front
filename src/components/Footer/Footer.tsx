@@ -2,7 +2,7 @@ import React from 'react';
 // React router
 import {useLocation} from 'react-router-dom';
 // Material UI
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, Theme} from "@mui/material";
 // Project settings
 import {ProjectTitle} from "../../config";
 // Images
@@ -20,7 +20,7 @@ const Footer = (): JSX.Element | null => {
                 component="footer"
                 sx={{
                     color: "#FFFFFF",
-                    backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.primary.main,
+                    backgroundColor:(theme: Theme) => theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.primary.main,
                     marginTop: "auto",
                     padding: "16px 0",
                 }}

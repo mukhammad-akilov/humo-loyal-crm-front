@@ -8,7 +8,7 @@ import {useAppSelector} from "../../customHooks/redux";
 import {ProjectTitle, ApiUrl} from "../../config";
 import httpService, {HttpError} from "../../httpService/httpService";
 // Material UI
-import {Button, TextField, Link, Paper, Box, Grid, Typography, IconButton, InputAdornment, LinearProgress, Avatar} from "@mui/material";
+import {Button, TextField, Link, Paper, Box, Grid, Typography, IconButton, InputAdornment, LinearProgress, Avatar, Theme} from "@mui/material";
 // Icons
 import {Visibility, VisibilityOff, LockOutlined} from "@mui/icons-material";
 // Images
@@ -124,7 +124,7 @@ const Login = (): JSX.Element =>  {
                     justifyContent="center"
                     alignItems="center"
                     sx={{
-                        backgroundColor: (theme) => theme.palette.primary.main,
+                        backgroundColor: (theme: Theme) => theme.palette.primary.main,
                         minHeight: "150px",
                     }}
                 >
@@ -150,7 +150,7 @@ const Login = (): JSX.Element =>  {
                 >
                     <Box
                          sx={{
-                            margin: (theme) => theme.spacing(8, 4),
+                            margin: (theme: Theme) => theme.spacing(8, 4),
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -158,7 +158,7 @@ const Login = (): JSX.Element =>  {
                     >
                         <Box mb={1}>
                             <Avatar
-                                sx={{backgroundColor: (theme) => theme.palette.primary.main}}
+                                sx={{backgroundColor: (theme: Theme) => theme.palette.primary.main}}
                             >
                                 <LockOutlined />
                             </Avatar>
@@ -181,11 +181,11 @@ const Login = (): JSX.Element =>  {
                                     name="login"
                                     autoComplete="login"
                                     value={login}
-                                    onChange={e => setLogin(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
                                     error={notValidateField.login && login === ""}
                                     helperText={notValidateField.login && login === "" ? "Поле обязательно для заполнения" : ""}
-                                    onBlur={event => setNotValidateField(prevState => ({...prevState, login: true}))}
-                                    onFocus={event => setNotValidateField(prevState => ({...prevState, login: false}))}
+                                    onBlur={() => setNotValidateField(prevState => ({...prevState, login: true}))}
+                                    onFocus={() => setNotValidateField(prevState => ({...prevState, login: false}))}
                                 />
                             </Box>
                             <Box mb={3}>
@@ -198,18 +198,18 @@ const Login = (): JSX.Element =>  {
                                     label="Пароль"
                                     name="password"
                                     value={password}
-                                    onChange={e => setPassword(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                                     error={notValidateField.password && password === ""}
                                     helperText={notValidateField.password && password === "" ? "Поле обязательно для заполнения" : ""}
-                                    onBlur={event => setNotValidateField(prevState => ({...prevState, password: true}))}
-                                    onFocus={event => setNotValidateField(prevState => ({...prevState, password: false}))}
+                                    onBlur={() => setNotValidateField(prevState => ({...prevState, password: true}))}
+                                    onFocus={() => setNotValidateField(prevState => ({...prevState, password: false}))}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 <IconButton
                                                     aria-label="toggle password visibility"
                                                     onClick={() => setShowPassword(!showPassword)}
-                                                    onMouseDown={event => event.preventDefault()}
+                                                    onMouseDown={(event: React.MouseEvent) => event.preventDefault()}
                                                     edge="end"
                                                 >
                                                     {showPassword ? <Visibility /> : <VisibilityOff />}

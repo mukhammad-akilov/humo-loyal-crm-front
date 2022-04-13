@@ -1,4 +1,4 @@
-import {Box, ButtonBase, Typography} from "@mui/material";
+import {Box, ButtonBase, Theme, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {ArrowForward} from "@mui/icons-material";
 import {CardLinkProps} from "./CardLink.props";
@@ -15,7 +15,7 @@ const CardLink = ({title, link, disabled = false, ...restProps}: CardLinkProps):
                     minHeight: "140px",
                     height: "100%",
                     opacity: disabled ? 0.5 : 1,
-                    backgroundColor:(theme) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
+                    backgroundColor:(theme: Theme) => theme.palette.mode === 'dark' ? theme.palette.divider : "#FFFFFF",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
@@ -25,11 +25,11 @@ const CardLink = ({title, link, disabled = false, ...restProps}: CardLinkProps):
                         backgroundColor: "red", // Not working
                     },
                     "&:hover .cardIconContainer": {
-                        backgroundColor: (theme) => theme.palette.secondary.main,
+                        backgroundColor: (theme: Theme) => theme.palette.secondary.main,
                         color: "#FFFFFF",
                     },
                     "& .cardIconContainer": {
-                        border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+                        border: (theme: Theme) => `2px solid ${theme.palette.secondary.main}`,
                         borderRadius: "50%",
                         alignSelf: "flex-end",
                         width: "42px",
@@ -37,7 +37,7 @@ const CardLink = ({title, link, disabled = false, ...restProps}: CardLinkProps):
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: (theme) => theme.palette.secondary.main,
+                        color: (theme: Theme) => theme.palette.secondary.main,
                         transition: "all 0.2s linear",
                     },
                 }}

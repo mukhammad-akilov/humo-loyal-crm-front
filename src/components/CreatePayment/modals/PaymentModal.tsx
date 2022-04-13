@@ -77,7 +77,7 @@ const PaymentModal = ({open: openDialog, preCheck, onSuccessClose, onClose}: Pay
                                 label="Сумма"
                                 name="price-amount"
                                 value={amount}
-                                onChange={event => setAmount(parseInt(event.target.value))}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))}
                             />
                         </Box>
                         <Box mb={3}>
@@ -89,7 +89,7 @@ const PaymentModal = ({open: openDialog, preCheck, onSuccessClose, onClose}: Pay
                                 label="Сумма бонуса"
                                 name="bonus-amount"
                                 value={bonusAmount}
-                                onChange={event => setBonusAmount(parseInt(event.target.value))}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setBonusAmount(parseInt(event.target.value))}
                             />
                         </Box>
                         {loading &&

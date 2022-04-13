@@ -1,6 +1,6 @@
 import React from 'react';
 // Material UI
-import {Zoom, useScrollTrigger, Box} from '@mui/material';
+import {Zoom, useScrollTrigger, Box, Theme} from '@mui/material';
 import {ScrollToTopProps} from "./ScrollToTop.props";
 
 const ScrollTop = ({children, window, ...props}: ScrollToTopProps): JSX.Element => {
@@ -23,8 +23,8 @@ const ScrollTop = ({children, window, ...props}: ScrollToTopProps): JSX.Element 
                 onClick={handleClick}
                 role="presentation"
                 sx={{position: 'fixed',
-                    bottom: theme => theme.spacing(3),
-                    right: theme => theme.spacing(3)}}
+                    bottom: (theme: Theme) => theme.spacing(3),
+                    right: (theme: Theme) => theme.spacing(3)}}
             >
                 {children}
             </Box>

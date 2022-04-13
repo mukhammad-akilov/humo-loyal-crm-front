@@ -27,6 +27,7 @@ import {AppBar, Box, Button,
     ListItemText,
     Menu,
     MenuItem,
+    Theme,
     Toolbar,
     Typography
 } from '@mui/material';
@@ -113,7 +114,7 @@ const Navbar = () => {
                                         <Fragment key={index}>
                                             <ListItemButton
                                                 selected={childIsActive(navbarItem.links)}
-                                                onClick={e => {navbarItem.openFunc?.(!navbarItem.openValue); e.stopPropagation();}}
+                                                onClick={(e: React.MouseEvent) => {navbarItem.openFunc?.(!navbarItem.openValue); e.stopPropagation();}}
                                             >
                                                 <ListItemIcon>{navbarItem.icon}</ListItemIcon>
                                                 <ListItemText primary={navbarItem.title} />
@@ -123,7 +124,7 @@ const Navbar = () => {
                                                 <List component="div" disablePadding>
                                                     {navbarItem.links?.map((nestedLink, counter) => (
                                                         <ListItemButton
-                                                            sx={{paddingLeft: (theme) => theme.spacing(4)}}
+                                                            sx={{paddingLeft: (theme: Theme) => theme.spacing(4)}}
                                                             component={RouterLink}
                                                             to={nestedLink.link}
                                                             selected={location.pathname === nestedLink.link}
@@ -167,7 +168,7 @@ const Navbar = () => {
                     <Toolbar sx={{minHeight: "70px!important"}}>
                         <IconButton
                             edge="start"
-                            sx={{marginRight: (theme) => theme.spacing(2)}}
+                            sx={{marginRight: (theme: Theme) => theme.spacing(2)}}
                             color="inherit"
                             aria-label="menu"
                             onClick={toggleDrawer( true)}
@@ -208,7 +209,7 @@ const Navbar = () => {
                             <Tooltip title="Мой профиль">
                                 <IconButton
                                     aria-label="show new notifications"
-                                    onClick={event => setAnchorEl(event.currentTarget)}
+                                    onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => setAnchorEl(event.currentTarget)}
                                     color="inherit"
                                     size="large"
                                 >
