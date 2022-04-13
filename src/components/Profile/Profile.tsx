@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 // Project settings
 import {ProjectTitle} from "../../config";
 // Material UI
-import {Box, Container, Typography,  Paper, Avatar} from '@mui/material';
+import {Box, Container, Typography,  Paper, Avatar, Theme} from '@mui/material';
 // Images
 import avatar from '../../assets/images/user.svg';
 // Breadcrumbs
@@ -45,7 +45,7 @@ const Profile = ({title = "Заголовок пустой", ...props}: ProfileP
                                     width: "200px",
                                     height: "200px",
                                     margin: "auto",
-                                    border: theme => `8px dashed ${theme.palette.primary.main}`,
+                                    border: (theme: Theme) => `8px dashed ${theme.palette.primary.main}`,
                                 }}
                             />
                         </Box>

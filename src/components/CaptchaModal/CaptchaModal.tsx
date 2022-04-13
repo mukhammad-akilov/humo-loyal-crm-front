@@ -71,7 +71,7 @@ const CaptchaModal = ({}: CaptchaModalProps): JSX.Element => {
                                 id="captcha-code"
                                 label="Введите код"
                                 value={captchaCode}
-                                onKeyPress={event => (event.key === "Enter" && !validateForm()) ? resendRequest() : null}
+                                onKeyPress={(event: React.KeyboardEvent<HTMLInputElement>) => (event.key === "Enter" && !validateForm()) ? resendRequest() : null}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => setCaptchaCode(event.target.value)}
                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                                 error={notValidateField.captchaCode && captchaCode === ""}
