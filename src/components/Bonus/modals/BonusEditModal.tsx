@@ -118,7 +118,7 @@ const BonusEditModal = ({open, bonus, onClose, onSuccessClose, ...restProps}: Bo
                                     id="title"
                                     label="Название"
                                     value={title}
-                                    onChange={e => setTitle(e.target.value)}
+                                    onChange={(e:  React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setTitle(e.target.value)}
                                     error={notValidateField.title && title === ""}
                                     helperText={notValidateField.title && title === "" ? "Поле обязательно для заполнения" : ""}
                                     onBlur={event => setNotValidateField(prevState => ({...prevState, title: true}))}
@@ -133,7 +133,7 @@ const BonusEditModal = ({open, bonus, onClose, onSuccessClose, ...restProps}: Bo
                                     label="Дневной лимит"
                                     value={dailyLimit}
                                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                                    onChange={e => setDailyLimit(e.target.value)}
+                                    onChange={(e:  React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setDailyLimit(e.target.value)}
                                     error={notValidateField.dailyLimit && dailyLimit === ""}
                                     helperText={notValidateField.dailyLimit && dailyLimit === "" ? "Поле обязательно для заполнения" : ""}
                                     onBlur={event => setNotValidateField(prevState => ({...prevState, dailyLimit: true}))}
@@ -148,7 +148,7 @@ const BonusEditModal = ({open, bonus, onClose, onSuccessClose, ...restProps}: Bo
                                     label="Месячный лимит"
                                     value={monthlyLimit}
                                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                                    onChange={e => setMonthlyLimit(e.target.value)}
+                                    onChange={(e:  React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setMonthlyLimit(e.target.value)}
                                     error={notValidateField.monthlyLimit && monthlyLimit === ""}
                                     helperText={notValidateField.monthlyLimit && monthlyLimit === "" ? "Поле обязательно для заполнения" : ""}
                                     onBlur={event => setNotValidateField(prevState => ({...prevState, monthlyLimit: true}))}
@@ -163,7 +163,7 @@ const BonusEditModal = ({open, bonus, onClose, onSuccessClose, ...restProps}: Bo
                                     label="Процент"
                                     value={percentage}
                                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                                    onChange={e => setPercentage(e.target.value)}
+                                    onChange={(e:  React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setPercentage(e.target.value)}
                                     error={notValidateField.percentage && percentage === ""}
                                     helperText={notValidateField.percentage && percentage === "" ? "Поле обязательно для заполнения" : ""}
                                     onBlur={event => setNotValidateField(prevState => ({...prevState, percentage: true}))}
