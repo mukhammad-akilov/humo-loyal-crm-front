@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.6.0",
@@ -25,6 +26,7 @@
     "crypto-js": "^4.1.1",
     "date-fns": "^2.22.1",
     "firebase": "^9.6.1",
+    "framer-motion": "^6.3.0",
     "lodash": "^4.17.21",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
@@ -40,6 +42,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "craco-start": "craco start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "test": "react-scripts test",
