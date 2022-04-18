@@ -31,6 +31,7 @@ import {AppBar, Box, Button,
     Toolbar,
     Typography
 } from '@mui/material';
+import {motion} from "framer-motion";
 // Tooltip
 import Tooltip from "../Tooltip/Tooltip";
 // Icons
@@ -91,23 +92,35 @@ const Navbar = () => {
                             switch(navbarItem.type) {
                                 case NavbarItemType.Link:
                                     return (
-                                        <CanAccess
-                                            accessType="page"
+                                        <motion.div
                                             key={index}
-                                            route={navbarItem.link!}
-                                            component={
-                                                <ListItemButton
-                                                    component={RouterLink}
-                                                    to={navbarItem.link!}
-                                                    // onClick={(event: React.MouseEvent<HTMLAnchorElement>) => event.preventDefault()}
-                                                    selected={location.pathname === navbarItem.link}
-                                                    // sx={{pointerEvents: "auto!important"}}
-                                                >
-                                                    <ListItemIcon>{navbarItem.icon}</ListItemIcon>
-                                                    <ListItemText primary={navbarItem.title} />
-                                                </ListItemButton>
-                                            }
-                                        />
+                                            animate={{
+                                                x: 0,
+                                                scale: 1
+                                            }}
+                                            initial={{
+                                                x: "-100%",
+                                                scale: 0.8
+                                            }}
+                                        >
+                                            <CanAccess
+                                                accessType="page"
+                                                key={index}
+                                                route={navbarItem.link!}
+                                                component={
+                                                    <ListItemButton
+                                                        component={RouterLink}
+                                                        to={navbarItem.link!}
+                                                        // onClick={(event: React.MouseEvent<HTMLAnchorElement>) => event.preventDefault()}
+                                                        selected={location.pathname === navbarItem.link}
+                                                        // sx={{pointerEvents: "auto!important"}}
+                                                    >
+                                                        <ListItemIcon>{navbarItem.icon}</ListItemIcon>
+                                                        <ListItemText primary={navbarItem.title} />
+                                                    </ListItemButton>
+                                                }
+                                            />
+                                        </motion.div>
                                     )
                                 case NavbarItemType.Dropdown:
                                     return (

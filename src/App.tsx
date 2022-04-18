@@ -5,10 +5,10 @@ import "./App.scss";
 import { useDispatch } from "react-redux";
 import {fetchUserInfo} from "./store/slices/userSlice";
 // Lazy components
-import { Login, Home, Profile, CreatePayment, CreateCustomer } from "./components/Lazy/Lazy";
+import { Login, Home, Profile, CreatePayment, CreateCustomer, BonusesList } from "./components/Lazy/Lazy";
 import NotFoundRoute from "./routes/not-found";
 // React router
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate} from "react-router-dom";
 // Routes type
 import GuestRoute from "./components/Routes/GuestRoute";
 import PrivateRoute from "./components/Routes/PrivateRoute";
@@ -93,7 +93,9 @@ const App = (): JSX.Element => {
               <Route path="/profile" element={<PrivateRoute><Profile title="Мой профиль"/></PrivateRoute>} />
               <Route path="/create-payment" element={<PrivateRoute><CreatePayment title="Создание платежа"/></PrivateRoute>} />
               <Route path="/create-customer" element={<PrivateRoute><CreateCustomer title="Создание клиента"/></PrivateRoute>} />
-              <Route path="*" element={<NotFoundRoute title="Страница 404" />} />
+              <Route path="/bonuses" element={<PrivateRoute><BonusesList title="Список бонусов"/></PrivateRoute>} />
+              <Route path="/404" element={<NotFoundRoute title="Страница 404" />} />
+              <Route path="*" element={<Navigate to="/404" />}  />
             </Routes>
           </Layout>
         </Suspense>
