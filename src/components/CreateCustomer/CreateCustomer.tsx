@@ -14,7 +14,6 @@ import {normalizePhoneNumber} from "../../utils/utils";
 import sha256 from "crypto-js/sha256";
 // Access
 import CanAccess from "../CanAccess/CanAccess";
-import CardLink from "../CardLink/CardLink";
 
 interface FieldWithValue extends Field {
     value: string
