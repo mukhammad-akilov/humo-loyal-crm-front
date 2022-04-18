@@ -4,7 +4,7 @@ import {Tooltip as MaterialTooltip, styled, tooltipClasses, TooltipProps as  Mat
 import {TooltipProps} from "./Tooltip.props";
 
 const CustomTooltip = styled(({ className, title, placement, ...props }: MaterialTooltipProps) => (
-    <MaterialTooltip  arrow title={title} classes={{ popper: className }} {...props} />
+    <MaterialTooltip  arrow title={title} placement={placement} classes={{ popper: className }} {...props} />
 ))(({ theme }) => ({
     [`& .${tooltipClasses.arrow}`]: {
         color: theme.palette.common.black,

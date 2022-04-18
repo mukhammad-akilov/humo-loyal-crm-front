@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {ApiUrl} from "../config";
 import {handleSnackbar} from "../store/slices/snackbarSlice";
 
-const useHttpService = <T>(apiConfig: IApiConfig, url: string, initialState: T): [boolean, T, boolean] => {
+const useHttpService = <T>(apiConfig: IApiConfig, url: string, initialState: T, refetch: boolean = true): [boolean, T, boolean] => {
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<T>(initialState);
     const [error, SetError] = useState("");
@@ -15,37 +15,38 @@ const useHttpService = <T>(apiConfig: IApiConfig, url: string, initialState: T):
         let mounted = true;
         const abortController = new AbortController();
 
-        (async () => {
-            try {
-                setLoading(true);
-                const response = await httpService<T>(apiConfig, `${ApiUrl}get_fields/precheck`, abortController);
-                if (mounted) {
-                    setData(response);
-                    setLoading(false);
-                }
-            } catch (error) {
-                if(mounted) {
+        if(refetch) {
+            (async () => {
+                try {
                     setLoading(true);
-                    if(error instanceof HttpError) {
-                        console.log(error.getErrorDetails());
-                        // Show message
-                        dispatch(handleSnackbar({
-                            open: true,
-                            message: error.getResponseErrorMessage(),
-                            type: "error",
-                        }));
+                    const response = await httpService<T>(apiConfig, `${ApiUrl}${url}`, abortController);
+                    if (mounted) {
+                        setData(response);
+                        setLoading(false);
+                    }
+                } catch (error) {
+                    if(mounted) {
+                        setLoading(false);
+                        if(error instanceof HttpError) {
+                            console.log(error.getErrorDetails());
+                            // Show message
+                            dispatch(handleSnackbar({
+                                open: true,
+                                message: error.getResponseErrorMessage(),
+                                type: "error",
+                            }));
+                        }
                     }
                 }
-
-            }
-        })();
+            })();
+        }
 
         const cleanup = (): void => {
             mounted = false;
             abortController.abort();
         };
         return cleanup;
-    }, [url])
+    }, [url, refetch])
 
     return [loading, data, true];
 }
