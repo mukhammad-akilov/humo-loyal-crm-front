@@ -37,6 +37,7 @@ import {useAppSelector} from "./customHooks/redux";
 // Captcha modal
 import CaptchaModal from "./components/CaptchaModal/CaptchaModal";
 import PermissionsModal from "./components/PermissionsModal/PermissionsModal";
+import RolesList from "./components/Role/RolesList";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const App = (): JSX.Element => {
               <Route path="/create-payment" element={<PrivateRoute><CreatePayment title="Создание платежа"/></PrivateRoute>} />
               <Route path="/create-customer" element={<PrivateRoute><CreateCustomer title="Создание клиента"/></PrivateRoute>} />
               <Route path="/bonuses" element={<PrivateRoute><BonusesList title="Список бонусов"/></PrivateRoute>} />
+              <Route path="/roles" element={<PrivateRoute><RolesList title="Список ролей и прав"/></PrivateRoute>} />
               <Route path="/404" element={<NotFoundRoute title="Страница 404" />} />
               <Route path="*" element={<Navigate to="/404" />}  />
             </Routes>

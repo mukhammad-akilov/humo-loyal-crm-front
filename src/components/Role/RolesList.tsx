@@ -6,23 +6,25 @@ import {ApiUrl, ProjectTitle} from "../../config";
 import httpService, {HttpError} from "../../httpService/httpService";
 import {handleSnackbar} from "../../store/slices/snackbarSlice";
 import {IApiConfig} from "../../httpService/httpService.interface";
-import {BonusesListResponse, Bonus} from "../../interfaces/bonus.interface";
+
 import l_times from "lodash/times";
 import useHttpService from "../../customHooks/useHttpService";
-import {BonusesListProps} from "./BonusesList.props";
+import {RolesListProps} from "./RolesList.props";
 import Tooltip from "../Tooltip/Tooltip";
 // Icons
-import {Edit} from "@mui/icons-material"
+import {Edit, Delete, Person} from "@mui/icons-material"
+import {RolesListResponse, Role} from "../../interfaces/role.interface";
 // Modals
-import BonusRegisterModal from "./modals/BonusRegisterModal";
-import BonusEditModal from "./modals/BonusEditModal";
+import RoleDeleteModal from "./modals/RoleDeleteModal";
+import RoleRegisterModal from "./modals/RoleRegisterModal";
 
-const tableColumns = ["Заголовок", "Дневной лимит", "Месячный лимит", "Процент", "Действия"];
 
-const BonusesList = ({title = "Заголовок пустой", ...restProps}: BonusesListProps): JSX.Element => {
+const tableColumns = ["№", "Название роли", "Действия"];
+
+const RolesList = ({title = "Заголовок пустой", ...restProps}: RolesListProps): JSX.Element => {
     const [refetchData, setRefetchData] = useState<boolean>(true);
     // Modals
-    const [selectedBonus, setSelectedBonus] = useState<Partial<Bonus>>({});
+    const [selectedBonus, setSelectedBonus] = useState<Partial<Role>>({});
     const [openBonusEditModal, setOpenBonusEditModal] = useState<boolean>(false);
 
     // Fields by custom hook
@@ -32,7 +34,7 @@ const BonusesList = ({title = "Заголовок пустой", ...restProps}: 
             "Accept": "application/json"
         },
     };
-    const [loadingBonuses, bonusesList, error] = useHttpService<BonusesListResponse[]>(apiConfig, `partner/bonus_list`, [], refetchData);
+    const [loadingRoles, rolesList, error] = useHttpService<RolesListResponse[]>(apiConfig, `role`, [], refetchData);
 
     useEffect(() => {
         // Update title
@@ -40,10 +42,10 @@ const BonusesList = ({title = "Заголовок пустой", ...restProps}: 
     }, []);
 
     useEffect(() => {
-       if(!loadingBonuses) {
-           setRefetchData(false);
-       }
-    }, [loadingBonuses]);
+        if(!loadingRoles) {
+            setRefetchData(false);
+        }
+    }, [loadingRoles]);
 
     return (
         <>
@@ -54,17 +56,17 @@ const BonusesList = ({title = "Заголовок пустой", ...restProps}: 
             </Box>
             <Breadcrumbs currentLinkText={title} />
             <Box mb={3}>
-                <BonusRegisterModal
+                <RoleRegisterModal
                     onSuccessClose={() => setRefetchData(true)}
                 />
             </Box>
-            {loadingBonuses ?
+            {loadingRoles ?
                 <Box sx={{display: "flex", gap: "15px", flexDirection: "column"}}>
                     {l_times(12).map((item,counter) => (
                         <Skeleton variant="rectangular" animation="wave" height={35} key={counter} />
                     ))}
                 </Box>
-                : bonusesList.length > 0 ? (
+                : rolesList.length > 0 ? (
                         <>
                             <TableContainer component={Paper}>
                                 <Table>
@@ -84,31 +86,45 @@ const BonusesList = ({title = "Заголовок пустой", ...restProps}: 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {bonusesList.map(bonus => (
+                                        {rolesList.map((role, index) => (
                                             <TableRow
                                                 hover
-                                                key={bonus.id}
+                                                key={role.id}
                                             >
                                                 <TableCell>
-                                                    {bonus.name}
+                                                    {index + 1}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {bonus.daily_limit}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {bonus.month_limit}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {bonus.percentage}
+                                                    {role.name}
+                                                    <br/>
+                                                    <Box component="span">
+                                                        {role.description}
+                                                    </Box>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography noWrap>
+                                                        <Tooltip title="Список пользователей">
+                                                            <IconButton
+                                                                color="secondary"
+                                                                onClick={() => {setSelectedBonus(role); setOpenBonusEditModal(true)}}
+                                                            >
+                                                                <Person />
+                                                            </IconButton>
+                                                        </Tooltip>
                                                         <Tooltip title="Редактировать">
                                                             <IconButton
                                                                 color="secondary"
-                                                                onClick={() => {setSelectedBonus(bonus); setOpenBonusEditModal(true)}}
+                                                                onClick={() => {setSelectedBonus(role); setOpenBonusEditModal(true)}}
                                                             >
                                                                 <Edit />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Удалить">
+                                                            <IconButton
+                                                                color="secondary"
+                                                                onClick={() => {setSelectedBonus(role); setOpenBonusEditModal(true)}}
+                                                            >
+                                                                <Delete />
                                                             </IconButton>
                                                         </Tooltip>
                                                     </Typography>
@@ -122,16 +138,10 @@ const BonusesList = ({title = "Заголовок пустой", ...restProps}: 
 
                     )
                     :
-                    <Alert severity="warning">Нет добавленных бонусов</Alert>
+                    <Alert severity="warning">Нет добавленных ролей</Alert>
             }
-            <BonusEditModal
-                open={openBonusEditModal}
-                bonus={selectedBonus as Bonus}
-                onClose={() => setOpenBonusEditModal(false)}
-                onSuccessClose={() => {setOpenBonusEditModal(false); setRefetchData(true)}}
-            />
         </>
     )
 }
 
-export default BonusesList;
+export default RolesList;

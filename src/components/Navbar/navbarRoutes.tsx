@@ -1,5 +1,5 @@
 import React from "react";
-import { Home as HomeIcon, Payment,PersonAdd } from "@mui/icons-material";
+import { Home as HomeIcon, Payment,PersonAdd, Accessibility } from "@mui/icons-material";
 
 export interface NavbarLink {
     title: string,
@@ -43,6 +43,12 @@ const navbarRoutes: NavbarRoute[] = [
         title: "Список бонусов",
         link: "/bonuses",
         icon: <PersonAdd color="primary" />,
+        type: NavbarItemType.Link,
+    },
+    {
+        title: "Список ролей и прав",
+        link: "/roles",
+        icon: <Accessibility color="primary" />,
         type: NavbarItemType.Link,
     },
   ];

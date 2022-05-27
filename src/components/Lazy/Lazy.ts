@@ -10,3 +10,5 @@ export const CreatePayment = lazy(() => import('../CreatePayment/CreatePayment')
 export const CreateCustomer = lazy(() => import('../CreateCustomer/CreateCustomer'));
 // Bonus
 export const BonusesList = lazy(() => import("../Bonus/BonusesList"));
+// Role
+export const RolesList = lazy(() => import("../Role/RolesList"));
